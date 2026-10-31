@@ -1,0 +1,44 @@
+<svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .emblem { transform-origin: 32px 42px; animation: pulse 1.5s ease-in-out infinite; }
+    .sl1 { transform-origin: 13px 21px; animation: shootLLg 1.5s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+    .sl2 { transform-origin: 23px 12px; animation: shootLSm 1.5s cubic-bezier(0.22, 1, 0.36, 1) 0.22s infinite; }
+    .sr1 { transform-origin: 51px 19px; animation: shootRLg 1.5s cubic-bezier(0.22, 1, 0.36, 1) 0.12s infinite; }
+    .sr2 { transform-origin: 41px 10px; animation: shootRSm 1.5s cubic-bezier(0.22, 1, 0.36, 1) 0.34s infinite; }
+    @keyframes pulse { 0%, 100% { transform: translateY(0) scale(1); } 35% { transform: translateY(-2.5px) scale(1.04); } }
+    @keyframes shootLLg {
+      0% { opacity: 0; transform: translate(8px, 12px) scale(0.35); }
+      35% { opacity: 1; transform: translate(0, 0) scale(1.1); }
+      75% { opacity: 0.9; transform: translate(-3px, -5px) scale(0.95); }
+      100% { opacity: 0; transform: translate(-5px, -9px) scale(0.4); }
+    }
+    @keyframes shootLSm {
+      0% { opacity: 0; transform: translate(5px, 14px) scale(0.3); }
+      40% { opacity: 1; transform: translate(0, 0) scale(1.12); }
+      80% { opacity: 0.85; transform: translate(-2px, -5px) scale(0.9); }
+      100% { opacity: 0; transform: translate(-4px, -8px) scale(0.35); }
+    }
+    @keyframes shootRLg {
+      0% { opacity: 0; transform: translate(-8px, 12px) scale(0.35); }
+      35% { opacity: 1; transform: translate(0, 0) scale(1.1); }
+      75% { opacity: 0.9; transform: translate(3px, -5px) scale(0.95); }
+      100% { opacity: 0; transform: translate(5px, -9px) scale(0.4); }
+    }
+    @keyframes shootRSm {
+      0% { opacity: 0; transform: translate(-5px, 14px) scale(0.3); }
+      40% { opacity: 1; transform: translate(0, 0) scale(1.12); }
+      80% { opacity: 0.85; transform: translate(2px, -5px) scale(0.9); }
+      100% { opacity: 0; transform: translate(4px, -8px) scale(0.35); }
+    }
+  </style>
+  <path class="sl1" d="M13 14.5 L14.8 19.2 L19.5 21 L14.8 22.8 L13 27.5 L11.2 22.8 L6.5 21 L11.2 19.2 Z" fill="#FFD100" stroke="#fef08a" stroke-width="1" stroke-linejoin="round"/>
+  <path class="sl2" d="M23 8.2 L24.1 10.9 L26.8 12 L24.1 13.1 L23 15.8 L21.9 13.1 L19.2 12 L21.9 10.9 Z" fill="#00e5ff" stroke="#bae6fd" stroke-width="0.9" stroke-linejoin="round"/>
+  <path class="sr1" d="M51 12.2 L52.9 17.1 L57.8 19 L52.9 20.9 L51 25.8 L49.1 20.9 L44.2 19 L49.1 17.1 Z" fill="#00e5ff" stroke="#bae6fd" stroke-width="1" stroke-linejoin="round"/>
+  <path class="sr2" d="M41 6.2 L42.1 8.9 L44.8 10 L42.1 11.1 L41 13.8 L39.9 11.1 L37.2 10 L39.9 8.9 Z" fill="#FFD100" stroke="#fef08a" stroke-width="0.9" stroke-linejoin="round"/>
+  <g class="emblem">
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M17 29 H28.5 C32.5 29 35 31.2 35 34.8 C35 37.2 33.6 39.1 31.4 39.9 C34.2 40.7 36 42.9 36 46 C36 50.2 33 53 28.2 53 H17 V29 Z M22.5 33.5 V38.2 H27.2 C28.9 38.2 30 37.2 30 35.8 C30 34.4 28.9 33.5 27.2 33.5 H22.5 Z M22.5 42.4 V48.3 H27.6 C29.6 48.3 30.8 47.2 30.8 45.4 C30.8 43.5 29.6 42.4 27.6 42.4 H22.5 Z" fill="#ffffff" stroke="#00c1d4" stroke-width="1.5" stroke-linejoin="round"/>
+    <rect x="39.5" y="36" width="5.8" height="17" rx="1" fill="#ffffff" stroke="#00c1d4" stroke-width="1.5"/>
+    <polygon points="39.5,28.5 42.2,26 46.5,26 46.5,32.5 39.5,32.5" fill="#FFD100" stroke="#fef08a" stroke-width="1.2" stroke-linejoin="round"/>
+  </g>
+</svg>
+

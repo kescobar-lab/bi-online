@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 100" width="100%" height="100%">
+  <defs>
+    <linearGradient id="cirrusDark" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1e3a8a" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+    <linearGradient id="cirrusLight" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="100%" stop-color="#0284c7" />
+    </linearGradient>
+  </defs>
+  <!-- Circulo Izquierdo -->
+  <circle cx="60" cy="46" r="34" fill="url(#cirrusDark)" />
+  <!-- Circulo Derecho -->
+  <circle cx="100" cy="46" r="34" fill="url(#cirrusLight)" fill-opacity="0.9" />
+  <!-- Letras cirrus. -->
+  <text x="80" y="88" fill="#ffffff" font-family="'Segoe UI', Roboto, sans-serif" font-size="19" font-weight="900" font-style="italic" text-anchor="middle" letter-spacing="-0.5">cirrus<tspan fill="#38bdf8">.</tspan></text>
+</svg>

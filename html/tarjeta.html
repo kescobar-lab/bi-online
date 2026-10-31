@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tarjeta Bi | Bi en Línea</title>
+    <link rel="icon" type="image/png" href="../imas/logo.png">
+    <link rel="shortcut icon" href="../imas/logo.png" type="image/png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Estilos modulares -->
+    <link rel="stylesheet" href="../css/global.css?v=20261029c">
+    <link rel="stylesheet" href="../css/animated.css?v=20261029c">
+    <link rel="stylesheet" href="../css/navbar.css?v=20261029c">
+    <link rel="stylesheet" href="../css/uiverse.css?v=20261029c">
+    <link rel="stylesheet" href="../css/card.css?v=20261029d">
+</head>
+
+<body class="d-flex flex-column min-vh-100 justify-content-between">
+
+    <div class="ambient-glow-1"></div>
+    <div class="ambient-glow-2"></div>
+
+    <!-- Barra de navegación -->
+    <nav class="navbar navbar-expand-lg navbar-custom">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center gap-2" href="../index.html">
+                <img src="../imas/logo-nombre.png" alt="Banco Industrial" class="bi-logo-nav">
+            </a>
+            <div class="ms-auto d-flex align-items-center gap-2">
+                <a href="../index.html" class="uiverse-btn-glass px-3 py-2 text-decoration-none">
+                    <img src="../icons/arrow-left-gold.svg" class="svg-icon-sm" alt="Volver">
+                    Volver al Inicio
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Tarjeta 3D Bi -->
+    <main class="container my-auto py-5 position-relative" style="z-index: 2;">
+        <div class="row justify-content-center align-items-center">
+            <div class="col-12 col-md-10 col-lg-8 col-xl-6 d-flex flex-column justify-content-center align-items-center">
+                <div class="bi-card-flipper-container">
+                    <div class="bi-card-flipper" id="cardFlipperStandalone" title="Haz clic sobre la tarjeta para voltearla">
+                        <div class="bi-card-face bi-card-front" id="cardFront">
+                            <div class="bi-card-glare"></div>
+                            <div class="bi-card-holder-overlay is-active" id="cardHolder">Titular Bi</div>
+                        </div>
+
+                        <div class="bi-card-face bi-card-back" id="cardBack">
+                            <div class="bi-card-glare"></div>
+                            <div class="bi-card-holder-back-overlay is-active" id="cardHolderBack">Titular Bi</div>
+                        </div>
+                    </div>
+
+                    <div class="bi-card-hint mt-3 text-secondary text-center small">
+                        Haz clic en la tarjeta para voltearla
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="py-3 text-center text-secondary small" style="z-index: 2;">
+        Banco Industrial | Tarjetas Bi
+    </footer>
+
+    <script src="../js/db.js?v=20261029f"></script>
+    <script src="../js/card.js?v=20261029f"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            setupCard3D('cardFlipperStandalone');
+            const activeUser = typeof getActiveSession === 'function' ? getActiveSession() : null;
+            applyBiCardToElements({
+                frontId: 'cardFront',
+                backId: 'cardBack',
+                holderFrontId: 'cardHolder',
+                holderBackId: 'cardHolderBack',
+                account: activeUser,
+                rootPrefix: '../'
+            });
+        });
+    </script>
+</body>
+
+</html>

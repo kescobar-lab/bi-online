@@ -1,0 +1,75 @@
+/* Barra de navegación Banco Industrial */
+
+.navbar-custom {
+    background: rgba(4, 13, 26, 0.72);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1030;
+    padding: 1.15rem 0;
+    transition: padding var(--transition-fast), background var(--transition-fast);
+}
+
+.bi-logo-nav {
+    height: 46px;
+    width: auto;
+    object-fit: contain;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+    filter: drop-shadow(0 2px 12px rgba(0, 0, 0, 0.45));
+    transition: transform var(--transition-fast);
+}
+
+.bi-logo-nav:hover {
+    transform: scale(1.02);
+}
+
+@media (max-width: 991px) {
+    .navbar-custom {
+        display: none !important;
+    }
+}
+
+.nav-link-custom {
+    color: var(--text-secondary);
+    font-weight: 600;
+    font-size: 0.95rem;
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius-sm);
+    transition: var(--transition-fast);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: none;
+}
+
+.nav-link-custom:hover {
+    color: var(--text-primary);
+    background: rgba(0, 163, 224, 0.12);
+}
+
+.nav-link-custom.active {
+    color: var(--bi-cyan);
+    background: rgba(0, 163, 224, 0.18);
+}
+
+@media (max-width: 768px) {
+    .navbar-custom {
+        padding: 0.85rem 0;
+    }
+
+    .bi-logo-nav {
+        height: 36px;
+    }
+}
+
+@media (min-width: 992px) {
+    .navbar-custom {
+        display: none !important;
+    }
+}

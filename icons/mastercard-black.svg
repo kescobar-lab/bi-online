@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 68 42" fill="none">
+    <defs>
+        <radialGradient id="mcSilverLeft" cx="35%" cy="35%" r="65%">
+            <stop offset="0%" stop-color="#9ca3af"/>
+            <stop offset="50%" stop-color="#4b5563"/>
+            <stop offset="100%" stop-color="#1f2937"/>
+        </radialGradient>
+        <radialGradient id="mcSilverRight" cx="65%" cy="35%" r="65%">
+            <stop offset="0%" stop-color="#e5e7eb"/>
+            <stop offset="50%" stop-color="#9ca3af"/>
+            <stop offset="100%" stop-color="#374151"/>
+        </radialGradient>
+        <linearGradient id="goldRim" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#eab308" stop-opacity="0.8"/>
+            <stop offset="50%" stop-color="#ca8a04" stop-opacity="0.2"/>
+            <stop offset="100%" stop-color="#eab308" stop-opacity="0.9"/>
+        </linearGradient>
+    </defs>
+    <!-- Círculo Izquierdo -->
+    <circle cx="24" cy="21" r="19" fill="url(#mcSilverLeft)" stroke="url(#goldRim)" stroke-width="0.8"/>
+    <!-- Círculo Derecho con intersección transparente -->
+    <circle cx="44" cy="21" r="19" fill="url(#mcSilverRight)" fill-opacity="0.92" stroke="url(#goldRim)" stroke-width="0.8"/>
+</svg>

@@ -1,0 +1,11 @@
+/* ==========================================================================
+   BANCO INDUSTRIAL (Bi en Línea) - HOJA DE ESTILOS MODULAR PRINCIPAL
+   Distribución optimizada por componentes para máxima velocidad de carga.
+   ========================================================================== */
+
+@import url('global.css');
+@import url('navbar.css');
+@import url('uiverse.css');
+@import url('card.css');
+@import url('auth.css');
+@import url('dashboard.css');

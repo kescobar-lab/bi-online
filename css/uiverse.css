@@ -1,0 +1,163 @@
+/* Componentes interactivos y botones Banco Industrial */
+
+.uiverse-card {
+    background-color: var(--bi-blue-surface);
+    border: 1px solid var(--bi-blue-surface);
+    border-radius: var(--radius-lg);
+    padding: 1.75rem;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+}
+
+.uiverse-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 40px rgba(0, 40, 85, 0.6);
+}
+
+/* Botón primario biselado */
+.uiverse-btn-primary {
+    background: linear-gradient(135deg, var(--bi-cyan) 0%, #0077b6 100%);
+    color: #ffffff;
+    border: none !important;
+    border-radius: 0 !important;
+    clip-path: polygon(11px 0, 100% 0, 100% calc(100% - 11px), calc(100% - 11px) 100%, 0 100%, 0 11px);
+    -webkit-clip-path: polygon(11px 0, 100% 0, 100% calc(100% - 11px), calc(100% - 11px) 100%, 0 100%, 0 11px);
+    padding: 0.75rem 1.5rem;
+    font-weight: 700;
+    font-size: 0.95rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    text-decoration: none;
+}
+
+.uiverse-btn-primary:hover {
+    background: linear-gradient(135deg, #26c6da 0%, var(--bi-cyan) 100%);
+    color: #ffffff;
+    transform: translateY(-2px);
+}
+
+.uiverse-btn-primary:active {
+    transform: translateY(1px);
+}
+
+/* Botón secundario biselado */
+.uiverse-btn-glass {
+    background-color: var(--bi-blue-elevated);
+    color: var(--text-primary);
+    border: none !important;
+    border-radius: 0 !important;
+    clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+    -webkit-clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    font-size: 0.95rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    cursor: pointer;
+    transition: var(--transition-fast);
+    text-decoration: none;
+}
+
+.uiverse-btn-glass:hover {
+    background-color: #1a427b;
+    color: var(--text-primary);
+    transform: translateY(-2px);
+}
+
+/* Tarjeta de acceso rápido */
+.uiverse-action-card {
+    background-color: var(--bi-blue-elevated);
+    border: 1px solid var(--bi-blue-elevated);
+    border-radius: var(--radius-md);
+    padding: 1.25rem 0.8rem;
+    text-align: center;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    color: var(--text-primary);
+    text-decoration: none;
+    height: 100%;
+}
+
+.uiverse-action-card:hover {
+    background-color: #1b4582;
+    border-color: #1b4582;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0, 40, 85, 0.5);
+    color: #ffffff;
+}
+
+/* Switch de ocultar saldo */
+.uiverse-switch {
+    position: relative;
+    display: inline-block;
+    width: 46px;
+    height: 24px;
+}
+
+.uiverse-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.uiverse-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--bi-blue-elevated);
+    border: 1px solid var(--bi-blue-elevated);
+    transition: 0.3s;
+    border-radius: 24px;
+}
+
+.uiverse-slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    top: 50%;
+    bottom: auto;
+    transform: translateY(-50%);
+    background-color: #ffffff;
+    transition: 0.3s;
+    border-radius: 50%;
+}
+
+input:checked + .uiverse-slider {
+    background-color: var(--bi-cyan);
+    border-color: var(--bi-cyan);
+}
+
+input:checked + .uiverse-slider:before {
+    transform: translate(22px, -50%);
+}
+
+.bi-service-img {
+    height: 60px;
+    width: auto;
+    max-width: 130px;
+    object-fit: contain;
+    image-rendering: -webkit-optimize-contrast;
+    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.35));
+    transition: transform var(--transition-smooth);
+}
+
+.uiverse-card:hover .bi-service-img {
+    transform: scale(1.06);
+}

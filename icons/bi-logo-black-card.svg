@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 60" fill="none">
+    <!-- Letra B -->
+    <path d="M10 12h18c7 0 11 3.5 11 8.5 0 3.5-2 6-5.5 7.5 4.5 1.5 7.5 4.5 7.5 9 0 6-5 10-12 10H10V12zm9 13h9c3 0 5-1.5 5-4s-2-4-5-4h-9v8zm0 15h9.5c3.5 0 5.5-1.5 5.5-4.5s-2-4.5-5.5-4.5H19v9z" fill="#ffffff"/>
+    
+    <!-- Letra i -->
+    <rect x="47" y="24" width="8.5" height="23" fill="#ffffff" rx="1.5"/>
+    <!-- Cuadros superiores de la i característicos de Banco Industrial -->
+    <rect x="58" y="14" width="7" height="7" rx="1.8" fill="#ffffff"/>
+    <rect x="49" y="14" width="7" height="7" rx="1.8" fill="#ffffff"/>
+    
+    <!-- Texto BANCO INDUSTRIAL a la derecha -->
+    <text x="74" y="27" fill="#ffffff" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-weight="800" font-size="11.5" letter-spacing="1.5">BANCO</text>
+    <text x="74" y="42" fill="#ffffff" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-weight="700" font-size="9.5" letter-spacing="1.8">INDUSTRIAL</text>
+</svg>

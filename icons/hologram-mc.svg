@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 85" width="100%" height="100%">
+  <defs>
+    <linearGradient id="holoSheen" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#cbd5e1" />
+      <stop offset="25%" stop-color="#f8fafc" />
+      <stop offset="45%" stop-color="#94a3b8" />
+      <stop offset="65%" stop-color="#bae6fd" />
+      <stop offset="85%" stop-color="#fbcfe8" />
+      <stop offset="100%" stop-color="#64748b" />
+    </linearGradient>
+    <radialGradient id="holoGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.8" />
+      <stop offset="70%" stop-color="#cbd5e1" stop-opacity="0.2" />
+      <stop offset="100%" stop-color="#64748b" stop-opacity="0.5" />
+    </radialGradient>
+  </defs>
+  <!-- Base Ovalada -->
+  <rect x="2" y="2" width="136" height="81" rx="40.5" fill="url(#holoSheen)" stroke="#ffffff" stroke-width="0.8" stroke-opacity="0.7" />
+  <rect x="5" y="5" width="130" height="75" rx="37.5" fill="url(#holoGlow)" />
+  <!-- Siluetas metálicas holográficas de los dos globos terráqueos Mastercard -->
+  <circle cx="53" cy="42.5" r="24" fill="none" stroke="#ffffff" stroke-width="1.8" stroke-opacity="0.85" />
+  <circle cx="87" cy="42.5" r="24" fill="none" stroke="#ffffff" stroke-width="1.8" stroke-opacity="0.85" />
+  <!-- Líneas de cuadrícula holográficas -->
+  <path d="M 53 18.5 Q 43 42.5 53 66.5" stroke="#ffffff" stroke-width="1.2" stroke-opacity="0.6" fill="none" />
+  <path d="M 87 18.5 Q 97 42.5 87 66.5" stroke="#ffffff" stroke-width="1.2" stroke-opacity="0.6" fill="none" />
+  <line x1="29" y1="42.5" x2="111" y2="42.5" stroke="#ffffff" stroke-width="1.2" stroke-opacity="0.6" />
+</svg>

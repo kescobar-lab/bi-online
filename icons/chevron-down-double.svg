@@ -1,0 +1,13 @@
+<svg viewBox="0 0 32 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .l1 { animation: pulseDown 1.6s ease-in-out infinite; }
+    .l2 { animation: pulseDown 1.6s ease-in-out 0.22s infinite; }
+    @keyframes pulseDown {
+      0%, 100% { opacity: 0.35; transform: translateY(-2px); }
+      50% { opacity: 1; transform: translateY(2px); }
+    }
+  </style>
+  <path class="l1" d="M9 3L16 9L23 3" stroke="#00A3E0" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <path class="l2" d="M9 9L16 15L23 9" stroke="#FFB81C" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+

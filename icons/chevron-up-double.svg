@@ -1,0 +1,13 @@
+<svg viewBox="0 0 32 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .gold { animation: pulseUp 1.5s ease-in-out infinite; }
+    .cyan { animation: pulseUp 1.5s ease-in-out 0.22s infinite; }
+    @keyframes pulseUp {
+      0%, 100% { opacity: 0.4; transform: translateY(2px); }
+      50% { opacity: 1; transform: translateY(-3px); }
+    }
+  </style>
+  <path class="gold" d="M8 13L16 5L24 13" stroke="#FFB81C" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <path class="cyan" d="M8 21L16 13L24 21" stroke="#00A3E0" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+

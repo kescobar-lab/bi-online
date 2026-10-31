@@ -1,0 +1,2126 @@
+/* Estilos del Dashboard (Bi en Línea) */
+
+html:has(.bi-dashboard-body),
+body.bi-dashboard-body {
+    height: 100vh !important;
+    max-height: 100vh !important;
+    overflow: hidden !important;
+}
+
+@media (max-width: 991px) {
+    html,
+    html:has(.bi-dashboard-body) {
+        height: auto !important;
+        min-height: 100% !important;
+        max-height: none !important;
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+    }
+
+    body.bi-dashboard-body {
+        min-height: 100vh !important;
+        min-height: 100dvh !important;
+        height: auto !important;
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+        display: flex !important;
+        flex-direction: column !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    .bi-dash-topbar {
+        padding: 1.25rem 0 0.45rem !important;
+        flex-shrink: 0 !important;
+    }
+
+    .bi-dash-topbar .container {
+        padding-left: 1.15rem !important;
+        padding-right: 1.15rem !important;
+        max-width: 100% !important;
+        width: 100% !important;
+    }
+}
+
+/* Barra superior y botón de perfil */
+.bi-dash-topbar {
+    position: relative;
+    z-index: 1040;
+    padding: 1.15rem 0 0.5rem;
+    background: transparent;
+    border: none;
+}
+
+.bi-profile-menu-wrapper {
+    position: relative;
+    width: 34px;
+    height: 34px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.bi-profile-avatar-btn {
+    position: relative;
+    z-index: 1065;
+    width: 34px;
+    height: 34px;
+    border-radius: 0 !important;
+    border: none !important;
+    clip-path: polygon(7px 0, 100% 0, 100% calc(100% - 7px), calc(100% - 7px) 100%, 0 100%, 0 7px);
+    -webkit-clip-path: polygon(7px 0, 100% 0, 100% calc(100% - 7px), calc(100% - 7px) 100%, 0 100%, 0 7px);
+    background: linear-gradient(135deg, #FFD100 0%, #F5B700 100%);
+    color: #002B49;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    cursor: pointer;
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), color 0.25s ease;
+}
+
+.bi-profile-avatar-btn::before {
+    content: "";
+    position: absolute;
+    inset: 2px;
+    background: #ffffff;
+    clip-path: polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px);
+    -webkit-clip-path: polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px);
+    z-index: 0;
+    transition: opacity 0.22s ease, background-color 0.22s ease;
+}
+
+.bi-profile-avatar-btn:hover {
+    transform: scale(1.05);
+    color: #002B49;
+}
+
+.bi-profile-avatar-btn:hover::before {
+    opacity: 0;
+}
+
+.bi-profile-avatar-btn.is-open {
+    color: var(--bi-yellow);
+}
+
+.bi-profile-avatar-btn.is-open::before {
+    background: #002B49;
+    opacity: 1;
+}
+
+.bi-profile-avatar-svg {
+    position: relative;
+    z-index: 1;
+    width: 16px;
+    height: 16px;
+    transition: filter 0.22s ease;
+}
+
+.bi-profile-avatar-btn.is-open .bi-profile-avatar-svg {
+    filter: brightness(0) saturate(100%) invert(77%) sepia(67%) saturate(1353%) hue-rotate(359deg) brightness(102%) contrast(106%);
+}
+
+/* Panel desplegable del perfil */
+.bi-profile-dropdown {
+    position: absolute;
+    top: -6px;
+    left: -6px;
+    width: 230px;
+    background: #ffffff;
+    border: none !important;
+    border-radius: 0 !important;
+    clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
+    -webkit-clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
+    padding: 6px 0.75rem 0.75rem;
+    z-index: 1060;
+    transform-origin: 23px 23px;
+    animation: biProfileExpandOut 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.bi-profile-dropdown.is-closing {
+    pointer-events: none;
+    animation: biProfileCompressIn 0.24s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.bi-profile-dropdown-header {
+    display: flex;
+    align-items: center;
+    min-height: 34px;
+    padding-left: calc(34px + 0.55rem);
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #e2e8f0;
+    margin-bottom: 0.55rem;
+}
+
+.bi-profile-dropdown-info {
+    min-width: 0;
+    text-align: left;
+}
+
+.bi-profile-name {
+    font-size: 0.82rem;
+    font-weight: 800;
+    color: #002B49;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.bi-profile-username {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #008ec4;
+    letter-spacing: 0.35px;
+}
+
+.bi-profile-meta-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    background: #f1f5f9;
+    border-radius: 0 !important;
+    clip-path: polygon(7px 0, 100% 0, 100% calc(100% - 7px), calc(100% - 7px) 100%, 0 100%, 0 7px);
+    -webkit-clip-path: polygon(7px 0, 100% 0, 100% calc(100% - 7px), calc(100% - 7px) 100%, 0 100%, 0 7px);
+    padding: 0.45rem 0.65rem;
+    margin-bottom: 0.55rem;
+}
+
+.bi-profile-meta-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.72rem;
+}
+
+.bi-profile-meta-label {
+    color: #64748b;
+    font-weight: 600;
+    font-size: 0.7rem;
+}
+
+.bi-profile-meta-value {
+    color: #002B49;
+    font-weight: 700;
+    font-size: 0.7rem;
+    max-width: 115px;
+}
+
+.bi-profile-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.bi-profile-action-btn {
+    width: 100%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    padding: 0.45rem 0.65rem;
+    border: none !important;
+    outline: none !important;
+    border-radius: 0 !important;
+    clip-path: polygon(7px 0, 100% 0, 100% calc(100% - 7px), calc(100% - 7px) 100%, 0 100%, 0 7px);
+    -webkit-clip-path: polygon(7px 0, 100% 0, 100% calc(100% - 7px), calc(100% - 7px) 100%, 0 100%, 0 7px);
+    font-size: 0.76rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+}
+
+.bi-profile-action-btn .svg-icon-sm {
+    width: 14px;
+    height: 14px;
+}
+
+.bi-profile-logout-btn {
+    background: linear-gradient(135deg, #FFD100 0%, #F5B700 100%);
+    color: #002B49;
+}
+
+.bi-profile-logout-btn:hover {
+    background: linear-gradient(135deg, #ffe033 0%, #FFD100 100%);
+    color: #002B49;
+    transform: translateY(-1px);
+}
+
+.bi-profile-delete-btn {
+    background-color: #002B49;
+    color: #ffffff;
+}
+
+.bi-profile-delete-btn:hover {
+    background-color: #e11d48;
+    color: #ffffff;
+    transform: translateY(-1px);
+}
+
+.bi-delete-confirm-box {
+    margin-top: 0.25rem;
+    padding: 0.55rem;
+    border-radius: 0 !important;
+    clip-path: polygon(7px 0, 100% 0, 100% calc(100% - 7px), calc(100% - 7px) 100%, 0 100%, 0 7px);
+    -webkit-clip-path: polygon(7px 0, 100% 0, 100% calc(100% - 7px), calc(100% - 7px) 100%, 0 100%, 0 7px);
+    background-color: #fff1f2;
+    border: none !important;
+}
+
+.bi-delete-confirm-text {
+    font-size: 0.7rem;
+    color: #9f1239;
+    font-weight: 600;
+    margin-bottom: 0.45rem;
+    text-align: center;
+    line-height: 1.25;
+}
+
+.bi-btn-confirm-delete,
+.bi-btn-cancel-delete {
+    padding: 0.32rem 0.45rem;
+    font-size: 0.7rem;
+}
+
+.bi-btn-confirm-delete {
+    background-color: #e11d48;
+    color: #ffffff;
+    border: none !important;
+    border-radius: 0 !important;
+    clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
+    -webkit-clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
+    padding: 0.5rem 0.65rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.bi-btn-confirm-delete:hover {
+    background-color: #be123c;
+    transform: translateY(-1px);
+}
+
+.bi-btn-cancel-delete {
+    background-color: #e2e8f0;
+    color: #002B49;
+    border: none !important;
+    border-radius: 0 !important;
+    clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
+    -webkit-clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
+    padding: 0.5rem 0.65rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.bi-btn-cancel-delete:hover {
+    background-color: #cbd5e1;
+    color: #002B49;
+}
+
+/* Panel principal de saldo disponible */
+.bi-balance-white-card {
+    background: #ffffff !important;
+    border: none !important;
+    border-radius: 0 !important;
+    clip-path: polygon(22px 0, 100% 0, 100% calc(100% - 22px), calc(100% - 22px) 100%, 0 100%, 0 22px);
+    -webkit-clip-path: polygon(22px 0, 100% 0, 100% calc(100% - 22px), calc(100% - 22px) 100%, 0 100%, 0 22px);
+}
+
+.bi-balance-label {
+    color: #002B49;
+}
+
+.bi-balance-hide-label {
+    color: #64748b;
+}
+
+.bi-balance-white-card .uiverse-slider {
+    background-color: #cbd5e1;
+    border: none !important;
+    border-radius: 0 !important;
+    clip-path: polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px);
+    -webkit-clip-path: polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px);
+}
+
+.bi-balance-white-card .uiverse-slider:before {
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    top: 50%;
+    bottom: auto;
+    transform: translateY(-50%);
+    background-color: #002B49;
+    border-radius: 0 !important;
+    clip-path: polygon(4px 0, 100% 0, 100% calc(100% - 4px), calc(100% - 4px) 100%, 0 100%, 0 4px);
+    -webkit-clip-path: polygon(4px 0, 100% 0, 100% calc(100% - 4px), calc(100% - 4px) 100%, 0 100%, 0 4px);
+}
+
+.bi-balance-white-card .uiverse-switch input:checked + .uiverse-slider {
+    background-color: #002B49;
+}
+
+.bi-balance-white-card .uiverse-switch input:checked + .uiverse-slider:before {
+    background-color: var(--bi-yellow);
+    transform: translate(22px, -50%);
+}
+
+.bi-main-balance-amount {
+    color: #002B49 !important;
+    letter-spacing: -0.5px;
+}
+
+.bi-info-subbox {
+    background-color: #f1f5f9;
+    border: none !important;
+    border-radius: 0 !important;
+    clip-path: polygon(11px 0, 100% 0, 100% calc(100% - 11px), calc(100% - 11px) 100%, 0 100%, 0 11px);
+    -webkit-clip-path: polygon(11px 0, 100% 0, 100% calc(100% - 11px), calc(100% - 11px) 100%, 0 100%, 0 11px);
+}
+
+.bi-subbox-label {
+    color: #64748b;
+    font-weight: 600;
+}
+
+.bi-subbox-value {
+    color: #002B49;
+    font-size: 0.98rem;
+}
+
+.bi-metric-box {
+    border: none !important;
+    border-radius: 0 !important;
+    clip-path: polygon(11px 0, 100% 0, 100% calc(100% - 11px), calc(100% - 11px) 100%, 0 100%, 0 11px);
+    -webkit-clip-path: polygon(11px 0, 100% 0, 100% calc(100% - 11px), calc(100% - 11px) 100%, 0 100%, 0 11px);
+}
+
+.bi-metric-income {
+    background-color: #ecfdf5;
+}
+
+.bi-metric-expense {
+    background-color: #fff1f2;
+}
+
+.bi-quick-action-btn {
+    background-color: #002B49 !important;
+    border: none !important;
+    color: #ffffff !important;
+    clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
+    -webkit-clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
+    border-radius: 0 !important;
+}
+
+.bi-quick-action-btn svg,
+.bi-quick-action-btn img {
+    transition: transform 0.25s ease, filter 0.25s ease;
+}
+
+.bi-quick-action-btn:hover {
+    background: linear-gradient(135deg, #FFD100 0%, #F5B700 100%) !important;
+    color: #002B49 !important;
+    transform: translateY(-3px);
+}
+
+.bi-quick-action-btn:hover svg,
+.bi-quick-action-btn:hover img {
+    transform: scale(1.08);
+    filter: brightness(0) saturate(100%) invert(11%) sepia(47%) saturate(2656%) hue-rotate(179deg) brightness(95%) contrast(103%);
+}
+
+/* Paneles de Transferencias y Pago de Servicios/Impuestos */
+.bi-operation-card {
+    background: #ffffff !important;
+    border: none !important;
+    border-radius: 0 !important;
+    clip-path: polygon(22px 0, 100% 0, 100% calc(100% - 22px), calc(100% - 22px) 100%, 0 100%, 0 22px);
+    -webkit-clip-path: polygon(22px 0, 100% 0, 100% calc(100% - 22px), calc(100% - 22px) 100%, 0 100%, 0 22px);
+    padding: 2rem 2.2rem !important;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+}
+
+.bi-operation-card:hover {
+    transform: none !important;
+}
+
+.bi-op-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    padding-bottom: 1.15rem;
+    margin-bottom: 1.4rem;
+    border-bottom: 2px solid #f1f5f9;
+}
+
+.bi-op-title-group {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+}
+
+.bi-op-title {
+    margin: 0;
+    font-size: 1.42rem;
+    font-weight: 800;
+    color: #002B49;
+    letter-spacing: -0.3px;
+}
+
+.bi-op-title-icon {
+    width: 26px;
+    height: 26px;
+    flex-shrink: 0;
+}
+
+.bi-op-back-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    background-color: #002B49;
+    color: #ffffff;
+    border: none !important;
+    outline: none !important;
+    border-radius: 0 !important;
+    clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+    -webkit-clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+    padding: 0.55rem 1.15rem;
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease;
+}
+
+.bi-op-back-btn svg,
+.bi-op-back-btn img {
+    transition: filter 0.2s ease, transform 0.2s ease;
+}
+
+.bi-op-back-btn:hover {
+    background: linear-gradient(135deg, #FFD100 0%, #F5B700 100%);
+    color: #002B49;
+    transform: translateY(-2px);
+}
+
+.bi-op-back-btn:hover svg,
+.bi-op-back-btn:hover img {
+    transform: translateX(-2px);
+    filter: brightness(0) saturate(100%) invert(11%) sepia(47%) saturate(2656%) hue-rotate(179deg) brightness(95%) contrast(103%);
+}
+
+/* Botón Volver de la barra superior (Oculto en vista de escritorio, activo solo en móvil) */
+.bi-topbar-back-btn {
+    display: none !important;
+}
+
+.bi-op-field-group {
+    margin-bottom: 1.15rem;
+}
+
+.bi-op-label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #002B49;
+    margin-bottom: 0.45rem;
+    letter-spacing: 0.15px;
+}
+
+.bi-op-field-shell {
+    position: relative;
+    background: #cbd5e1;
+    padding: 2px;
+    border-radius: 0 !important;
+    clip-path: polygon(11px 0, 100% 0, 100% calc(100% - 11px), calc(100% - 11px) 100%, 0 100%, 0 11px);
+    -webkit-clip-path: polygon(11px 0, 100% 0, 100% calc(100% - 11px), calc(100% - 11px) 100%, 0 100%, 0 11px);
+    transition: background 0.22s ease;
+}
+
+.bi-op-field-shell:hover {
+    background: #94a3b8;
+}
+
+.bi-op-field-shell:focus-within {
+    background: linear-gradient(135deg, #FFD100 0%, #F5B700 100%);
+}
+
+.bi-op-field-inner {
+    display: flex;
+    align-items: center;
+    background: #f8fafc;
+    border-radius: 0 !important;
+    clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+    -webkit-clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+    padding: 0 1rem;
+    min-height: 48px;
+    transition: background-color 0.2s ease;
+}
+
+.bi-op-field-shell:focus-within .bi-op-field-inner {
+    background: #ffffff;
+}
+
+.bi-op-field-icon {
+    width: 19px;
+    height: 19px;
+    flex-shrink: 0;
+    margin-right: 0.75rem;
+    transition: filter 0.2s ease;
+}
+
+.bi-op-currency-prefix {
+    font-size: 1.12rem;
+    font-weight: 800;
+    color: #002B49;
+    margin-right: 0.65rem;
+    user-select: none;
+    flex-shrink: 0;
+}
+
+.bi-op-input,
+.bi-op-select {
+    width: 100%;
+    border: none !important;
+    outline: none !important;
+    background: transparent !important;
+    color: #002B49 !important;
+    font-size: 0.94rem;
+    font-weight: 600;
+    padding: 0.72rem 0;
+    font-family: 'Poppins', sans-serif;
+}
+
+.bi-op-input-amount {
+    font-size: 1.05rem;
+    font-weight: 700;
+}
+
+.bi-op-input::placeholder {
+    color: #94a3b8;
+    font-weight: 500;
+}
+
+.bi-op-select-wrap {
+    position: relative;
+}
+
+.bi-op-select {
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+    cursor: pointer;
+    padding-right: 2rem;
+}
+
+.bi-op-select optgroup {
+    font-weight: 800;
+    color: #002B49;
+    background-color: #f1f5f9;
+    font-family: 'Poppins', sans-serif;
+}
+
+.bi-op-select option {
+    font-weight: 600;
+    color: #002B49;
+    background-color: #ffffff;
+    padding: 0.45rem;
+}
+
+.bi-op-select-arrow {
+    position: absolute;
+    right: 1rem;
+    width: 18px;
+    height: 18px;
+    pointer-events: none;
+    transition: transform 0.2s ease;
+}
+
+.bi-op-field-shell:focus-within .bi-op-select-arrow {
+    transform: translateY(1px);
+}
+
+.bi-op-submit-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    background: #002B49;
+    color: #ffffff;
+    border: none !important;
+    outline: none !important;
+    border-radius: 0 !important;
+    clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
+    -webkit-clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
+    padding: 0.92rem 1.5rem;
+    font-size: 0.96rem;
+    font-weight: 800;
+    letter-spacing: 0.25px;
+    cursor: pointer;
+    transition: transform 0.22s ease, background 0.22s ease, color 0.22s ease;
+}
+
+.bi-op-submit-btn svg,
+.bi-op-submit-btn img {
+    transition: filter 0.22s ease, transform 0.22s ease;
+}
+
+.bi-op-submit-btn:hover {
+    background: linear-gradient(135deg, #FFD100 0%, #F5B700 100%);
+    color: #002B49;
+    transform: translateY(-2px);
+}
+
+.bi-op-submit-btn:hover svg,
+.bi-op-submit-btn:hover img {
+    transform: scale(1.08);
+    filter: brightness(0) saturate(100%) invert(11%) sepia(47%) saturate(2656%) hue-rotate(179deg) brightness(95%) contrast(103%);
+}
+
+.bi-op-submit-btn:active {
+    transform: translateY(0);
+}
+
+.bi-dash-nav-list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    flex-wrap: wrap;
+}
+
+@media (max-width: 991px) {
+    main.container {
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+        padding-bottom: 0 !important;
+        margin-bottom: 0 !important;
+        flex: 1 1 auto !important;
+        display: flex !important;
+        flex-direction: column !important;
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    #tabContentCuentas {
+        flex: 1 1 auto !important;
+        display: flex !important;
+        flex-direction: column !important;
+        margin-bottom: 0 !important;
+        padding-bottom: 0 !important;
+        width: 100% !important;
+    }
+
+    #tabContentCuentas.d-none {
+        display: none !important;
+    }
+
+    #tabContentCuentas > .row {
+        margin-bottom: 0.35rem !important;
+        flex-shrink: 0 !important;
+    }
+
+    /* Botón Volver en la barra superior al nivel del botón de perfil (móvil) */
+    .bi-topbar-back-btn {
+        display: inline-flex !important;
+        align-items: center;
+        justify-content: center;
+        gap: 0.4rem;
+        height: 34px;
+        padding: 0 0.75rem !important;
+        font-size: 0.75rem !important;
+        font-weight: 700;
+        color: #ffffff !important;
+        background-color: #002B49 !important;
+        border: 1.5px solid rgba(255, 209, 0, 0.45) !important;
+        border-radius: 0 !important;
+        clip-path: polygon(7px 0, 100% 0, 100% calc(100% - 7px), calc(100% - 7px) 100%, 0 100%, 0 7px) !important;
+        -webkit-clip-path: polygon(7px 0, 100% 0, 100% calc(100% - 7px), calc(100% - 7px) 100%, 0 100%, 0 7px) !important;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+        cursor: pointer;
+        text-decoration: none;
+        z-index: 1045;
+        transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+    }
+
+    .bi-topbar-back-btn.d-none {
+        display: none !important;
+    }
+
+    .bi-topbar-back-btn:hover {
+        background: linear-gradient(135deg, #FFD100 0%, #F5B700 100%) !important;
+        color: #002B49 !important;
+        border-color: #FFD100 !important;
+        transform: translateY(-2px);
+    }
+
+    .bi-topbar-back-btn:hover img,
+    .bi-topbar-back-btn:hover svg {
+        transform: translateX(-2px);
+        filter: brightness(0) saturate(100%) invert(11%) sepia(47%) saturate(2656%) hue-rotate(179deg) brightness(95%) contrast(103%);
+    }
+
+    /* Ocultar botón Volver dentro del cuadro en móvil para limpiar y centrar */
+    .bi-op-header .bi-op-back-btn {
+        display: none !important;
+    }
+
+    .bi-op-header {
+        flex-direction: row;
+        align-items: center;
+        justify-content: center !important;
+        text-align: center !important;
+        gap: 0.5rem;
+        padding-bottom: 0.85rem;
+        margin-bottom: 1.15rem;
+    }
+
+    .bi-op-title-group {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center !important;
+        width: 100%;
+        text-align: center;
+        gap: 0.55rem;
+    }
+
+    .bi-op-title {
+        font-size: 1.15rem !important;
+    }
+
+    .bi-op-title-icon {
+        width: 22px !important;
+        height: 22px !important;
+    }
+
+    /* Centrado exclusivo del cuadro de operaciones (pagos y transferencias) en móvil */
+    #tabContentTransferencias:not(.d-none),
+    #tabContentServicios:not(.d-none) {
+        min-height: calc(100dvh - 90px);
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: center !important;
+        align-items: center !important;
+        width: 100% !important;
+        padding: 0.5rem 0 1.5rem !important;
+    }
+
+    #tabContentTransferencias:not(.d-none) .row,
+    #tabContentServicios:not(.d-none) .row {
+        width: 100% !important;
+        justify-content: center !important;
+        margin: auto 0 !important;
+    }
+
+    #tabContentTransferencias:not(.d-none) .col-lg-8,
+    #tabContentServicios:not(.d-none) .col-lg-8 {
+        width: 100% !important;
+        max-width: 440px !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        display: flex !important;
+        justify-content: center !important;
+    }
+
+    .bi-operation-card {
+        padding: 1.5rem 1.25rem !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+        max-width: 440px !important;
+        width: 100% !important;
+    }
+
+    .bi-op-select-wrap {
+        padding-right: 32px !important;
+    }
+
+    .bi-op-select {
+        font-size: 0.84rem !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+    }
+
+    .bi-card-flipper-container {
+        max-width: 360px !important;
+        width: 100% !important;
+        margin: 0 auto !important;
+        flex-shrink: 0 !important;
+    }
+
+    .bi-card-flipper {
+        max-width: 360px !important;
+    }
+
+    .bi-card-hint {
+        margin-top: 0.35rem !important;
+        margin-bottom: 0 !important;
+        font-size: 0.74rem !important;
+    }
+
+    .bi-balance-white-card {
+        padding: 1.15rem 1.25rem !important;
+        margin-top: 0.25rem !important;
+        justify-content: flex-start !important;
+        flex-shrink: 0 !important;
+    }
+
+    .bi-quick-actions-row {
+        margin-top: 0.65rem !important;
+        padding-top: 0 !important;
+    }
+
+    .bi-main-balance-amount {
+        font-size: clamp(1.85rem, 6.8vw, 2.35rem) !important;
+        margin-bottom: 0.75rem !important;
+    }
+
+    .bi-info-subbox {
+        padding: 0.55rem 0.85rem !important;
+    }
+
+    .bi-subbox-label {
+        font-size: 0.68rem !important;
+    }
+
+    .bi-subbox-value {
+        font-size: 0.88rem !important;
+    }
+
+    .bi-metric-box {
+        padding: 0.45rem 0.75rem !important;
+    }
+
+    .bi-metric-box .fs-5 {
+        font-size: 0.95rem !important;
+    }
+
+    .bi-quick-action-btn {
+        padding: 0.6rem 0.4rem !important;
+        gap: 6px !important;
+        font-size: 0.76rem !important;
+    }
+
+    .bi-quick-action-btn svg,
+    .bi-quick-action-btn img {
+        width: 17px !important;
+        height: 17px !important;
+    }
+
+    /* Cajón de movimientos en móvil: IDÉNTICO a la versión de computadora y acoplado al límite inferior */
+    .bi-movements-drawer:not(.is-expanded) {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        flex: 1 1 auto !important;
+        height: auto !important;
+        min-height: 85px !important;
+        max-height: none !important;
+        margin-top: 1.15rem !important;
+        margin-bottom: 0 !important;
+        padding: 0 !important;
+        border-radius: 0 !important;
+        clip-path: polygon(22px 0, 100% 0, 100% 100%, 0 100%, 0 22px) !important;
+        -webkit-clip-path: polygon(22px 0, 100% 0, 100% 100%, 0 100%, 0 22px) !important;
+        background-color: var(--bi-blue-surface) !important;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45) !important;
+        overflow: hidden !important;
+        cursor: pointer !important;
+        position: relative !important;
+        z-index: 10 !important;
+        width: 100% !important;
+    }
+
+    .bi-movements-drawer:not(.is-expanded) .bi-movements-inner-content {
+        position: absolute !important;
+        inset: 0 !important;
+        filter: blur(6px) !important;
+        opacity: 0.35 !important;
+        pointer-events: none !important;
+        width: 100% !important;
+        height: 100% !important;
+        overflow: hidden !important;
+    }
+
+    .bi-movements-drawer:not(.is-expanded) .bi-movements-blur-overlay {
+        position: absolute !important;
+        inset: 0 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 5px !important;
+        padding: 6px 10px 1.5rem !important;
+        background: transparent !important;
+        cursor: pointer !important;
+        z-index: 5 !important;
+        transform: translateY(-8px) !important;
+    }
+
+    .bi-movements-drawer:not(.is-expanded) .bi-movements-chevron-up {
+        width: 24px !important;
+        height: 18px !important;
+        flex-shrink: 0 !important;
+        filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.6)) !important;
+        animation: biChevPulseUp 1.8s infinite ease-in-out !important;
+    }
+
+    .bi-movements-drawer:not(.is-expanded) .bi-movements-prompt-text {
+        font-size: 0.74rem !important;
+        font-weight: 800 !important;
+        text-transform: uppercase !important;
+        letter-spacing: 1px !important;
+        color: #f8fafc !important;
+        line-height: 1.2 !important;
+        text-align: center !important;
+        white-space: nowrap !important;
+        text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7) !important;
+    }
+
+    /* Modal / Cajón expandido en móvil: exactamente igual al diseño y geometría de PC */
+    .bi-movements-drawer.is-expanded {
+        position: fixed !important;
+        left: 50% !important;
+        bottom: 0 !important;
+        transform: translateX(-50%) !important;
+        width: calc(100vw - 1.25rem) !important;
+        max-width: 600px !important;
+        height: auto !important;
+        max-height: 84vh !important;
+        border-radius: 0 !important;
+        clip-path: polygon(22px 0, 100% 0, 100% 100%, 0 100%, 0 22px) !important;
+        -webkit-clip-path: polygon(22px 0, 100% 0, 100% 100%, 0 100%, 0 22px) !important;
+        z-index: 1050 !important;
+        cursor: pointer !important;
+        background-color: var(--bi-blue-surface) !important;
+        box-shadow: 0 -18px 60px rgba(0, 0, 0, 0.8) !important;
+        padding: 1.25rem 1.15rem !important;
+        display: flex !important;
+        flex-direction: column !important;
+        animation: biDrawerOpenUp 0.38s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+    }
+
+    .bi-movements-drawer.is-closing {
+        position: fixed !important;
+        left: 50% !important;
+        bottom: 0 !important;
+        transform: translateX(-50%) !important;
+        width: calc(100vw - 1.25rem) !important;
+        max-width: 600px !important;
+        height: auto !important;
+        max-height: 84vh !important;
+        border-radius: 0 !important;
+        clip-path: polygon(22px 0, 100% 0, 100% 100%, 0 100%, 0 22px) !important;
+        -webkit-clip-path: polygon(22px 0, 100% 0, 100% 100%, 0 100%, 0 22px) !important;
+        z-index: 1050 !important;
+        pointer-events: none !important;
+        animation: biDrawerCloseDown 0.28s cubic-bezier(0.4, 0, 0.2, 1) forwards !important;
+    }
+
+    .bi-movements-drawer.is-expanded .bi-movements-blur-overlay {
+        opacity: 0 !important;
+        visibility: hidden !important;
+        pointer-events: none !important;
+        display: none !important;
+    }
+
+    .bi-movements-drawer.is-expanded .bi-movements-inner-content {
+        filter: none !important;
+        opacity: 1 !important;
+        pointer-events: auto !important;
+        user-select: auto !important;
+        display: flex !important;
+        flex-direction: column !important;
+        flex: 1 !important;
+        height: 100% !important;
+        overflow: hidden !important;
+        position: relative !important;
+        inset: auto !important;
+    }
+
+    .bi-movements-drawer.is-expanded .bi-drawer-minimize-cue {
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        margin-bottom: 0.65rem !important;
+        cursor: pointer !important;
+        padding: 4px 0 !important;
+    }
+
+    .bi-movements-drawer.is-expanded .bi-minimize-cue-svg {
+        width: 28px !important;
+        height: 16px !important;
+        animation: biCueDownPulse 1.8s infinite ease-in-out !important;
+    }
+
+    .bi-movements-drawer.is-expanded .bi-movements-scroll-area {
+        flex: 1 !important;
+        overflow-y: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+        max-height: calc(84vh - 120px) !important;
+        padding-right: 4px !important;
+    }
+
+    .bi-movements-top-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+    }
+
+    .bi-tx-segmented-filter {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .bi-filter-seg-btn {
+        flex: 1;
+        padding: 0.45rem 0.5rem;
+        font-size: 0.78rem;
+    }
+
+    .table-custom {
+        table-layout: fixed !important;
+        min-width: 750px !important;
+        width: 100% !important;
+    }
+
+    .table-responsive {
+        width: 100% !important;
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+        margin-bottom: 0.5rem;
+    }
+
+    .table-custom th,
+    .table-custom td {
+        padding: 0.75rem 0.6rem !important;
+        font-size: 0.82rem !important;
+        vertical-align: middle !important;
+    }
+
+    .table-custom th {
+        white-space: nowrap !important;
+    }
+
+    .table-custom .col-tx-desc {
+        width: 250px !important;
+        min-width: 250px !important;
+        max-width: 250px !important;
+        white-space: normal !important;
+        text-align: left !important;
+        padding-left: 1.15rem !important;
+    }
+
+    .table-custom .col-tx-type {
+        width: 140px !important;
+        min-width: 140px !important;
+        max-width: 140px !important;
+        text-align: center !important;
+        white-space: nowrap !important;
+    }
+
+    .table-custom .col-tx-date {
+        width: 210px !important;
+        min-width: 210px !important;
+        max-width: 210px !important;
+        text-align: center !important;
+        white-space: nowrap !important;
+    }
+
+    .table-custom .col-tx-amount {
+        width: 150px !important;
+        min-width: 150px !important;
+        max-width: 150px !important;
+        text-align: center !important;
+        white-space: nowrap !important;
+    }
+
+    .bi-tx-type-badge {
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 6px !important;
+        padding: 0.38rem 0.8rem !important;
+        font-size: 0.76rem !important;
+        white-space: nowrap !important;
+        margin: 0 auto !important;
+    }
+
+    /* Modal de Estado de Cuenta en móvil */
+    #statementModal .modal-dialog {
+        margin: 0.5rem auto !important;
+        max-width: calc(100vw - 1rem) !important;
+        width: calc(100vw - 1rem) !important;
+    }
+
+    .bi-statement-modal-content {
+        max-height: 94vh !important;
+        display: flex !important;
+        flex-direction: column !important;
+        overflow: hidden !important;
+    }
+
+    .bi-statement-modal-content .modal-header {
+        padding: 1rem 1rem 0.5rem !important;
+    }
+
+    .bi-statement-modal-content .modal-body {
+        padding: 0.5rem 0.5rem !important;
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .statement-box {
+        padding: 1.15rem 0.85rem !important;
+        overflow-x: hidden !important;
+        max-width: 100% !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+    }
+
+    .statement-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+    }
+
+    .statement-header .text-end {
+        text-align: left !important;
+    }
+
+    .statement-meta-grid {
+        grid-template-columns: 1fr !important;
+        gap: 0.75rem !important;
+        padding: 0.9rem 1rem !important;
+    }
+
+    .statement-summary-card {
+        padding: 0.75rem 0.85rem !important;
+        width: 100% !important;
+    }
+
+    .statement-summary-card .fs-5 {
+        font-size: 1rem !important;
+    }
+
+    .statement-table-wrapper {
+        width: 100% !important;
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+        margin-top: 0.75rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .statement-table {
+        min-width: 520px !important;
+        width: 100% !important;
+    }
+
+    .statement-table th,
+    .statement-table td {
+        white-space: nowrap !important;
+        padding: 0.7rem 0.8rem !important;
+        font-size: 0.8rem !important;
+    }
+
+    .bi-statement-modal-content .modal-footer {
+        flex-direction: column-reverse !important;
+        align-items: stretch !important;
+        padding: 0.75rem 1rem 1rem !important;
+        gap: 0.5rem !important;
+    }
+
+    .bi-stmt-print-btn,
+    .bi-stmt-close-btn {
+        width: 100% !important;
+        justify-content: center !important;
+        padding: 0.75rem 1rem !important;
+        font-size: 0.88rem !important;
+    }
+}
+
+/* Tabla de movimientos financieros */
+.table-custom {
+    width: 100%;
+    margin-bottom: 0;
+    color: var(--text-primary);
+    border-collapse: separate;
+    border-spacing: 0;
+    border: none;
+    table-layout: fixed;
+}
+
+.table-custom th {
+    background-color: #ffffff !important;
+    color: #002B49 !important;
+    font-size: 0.76rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1.1px;
+    padding: 0.95rem 1.25rem;
+    border: none !important;
+    border-radius: 0 !important;
+    vertical-align: middle;
+}
+
+@media (min-width: 992px) {
+    .table-custom {
+        width: 100% !important;
+        min-width: 100% !important;
+        table-layout: fixed !important;
+    }
+    .table-custom .col-tx-desc { width: 38% !important; min-width: 0 !important; max-width: none !important; text-align: left !important; padding-left: 1.25rem !important; }
+    .table-custom .col-tx-type { width: 18% !important; min-width: 0 !important; max-width: none !important; text-align: center !important; }
+    .table-custom .col-tx-date { width: 24% !important; min-width: 0 !important; max-width: none !important; text-align: center !important; }
+    .table-custom .col-tx-amount { width: 20% !important; min-width: 0 !important; max-width: none !important; text-align: center !important; }
+}
+
+.table-custom th:first-child {
+    border-radius: 0 !important;
+    clip-path: polygon(12px 0, 100% 0, 100% 100%, 0 100%, 0 12px);
+    -webkit-clip-path: polygon(12px 0, 100% 0, 100% 100%, 0 100%, 0 12px);
+}
+
+.table-custom th:last-child {
+    border-radius: 0 !important;
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%);
+    -webkit-clip-path: polygon(0 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%);
+}
+
+.table-custom td {
+    padding: 1.05rem 1.25rem;
+    vertical-align: middle;
+    border: none !important;
+    border-bottom: 1px solid rgba(156, 179, 209, 0.08) !important;
+    border-radius: 0 !important;
+    font-size: 0.92rem;
+    background-color: transparent !important;
+    color: var(--text-primary);
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.table-custom td:first-child {
+    clip-path: polygon(12px 0, 100% 0, 100% 100%, 0 100%, 0 12px);
+    -webkit-clip-path: polygon(12px 0, 100% 0, 100% 100%, 0 100%, 0 12px);
+}
+
+.table-custom td:last-child {
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%);
+    -webkit-clip-path: polygon(0 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%);
+}
+
+.table-custom tbody tr:last-child td {
+    border-bottom: none !important;
+}
+
+.table-custom tbody tr:has(+ tr:hover) td,
+.table-custom tbody tr:hover td {
+    border-bottom-color: transparent !important;
+}
+
+.table-custom tbody tr:hover td {
+    background-color: rgba(255, 255, 255, 0.065) !important;
+}
+
+/* Encabezado y filtros de movimientos */
+.bi-drawer-minimize-cue {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: -4px;
+    margin-bottom: 0.35rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+}
+
+.bi-movements-drawer.is-expanded .bi-drawer-minimize-cue {
+    opacity: 0.85;
+}
+
+.bi-minimize-cue-svg {
+    width: 28px;
+    height: 16px;
+}
+
+.bi-movements-top-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    cursor: pointer;
+}
+
+.bi-movements-title {
+    font-size: 1.25rem;
+    font-weight: 800;
+    letter-spacing: 0.4px;
+    color: #ffffff;
+}
+
+.bi-tx-segmented-filter {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background-color: #ffffff;
+    padding: 5px;
+    clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
+    -webkit-clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
+    border: none;
+    cursor: default;
+}
+
+.bi-filter-seg-btn {
+    border: none !important;
+    outline: none !important;
+    background: transparent;
+    color: #64748b;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.25px;
+    padding: 0.52rem 1.05rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    cursor: pointer;
+    transition: all 0.24s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.bi-filter-seg-btn svg,
+.bi-filter-seg-btn img {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+    transition: filter 0.24s ease;
+}
+
+.bi-filter-seg-btn:hover {
+    color: #002B49;
+}
+
+.bi-filter-seg-btn.active {
+    background: #002B49;
+    color: #ffffff;
+    clip-path: polygon(9px 0, 100% 0, 100% calc(100% - 9px), calc(100% - 9px) 100%, 0 100%, 0 9px);
+    -webkit-clip-path: polygon(9px 0, 100% 0, 100% calc(100% - 9px), calc(100% - 9px) 100%, 0 100%, 0 9px);
+    box-shadow: 0 4px 12px rgba(0, 43, 73, 0.25);
+}
+
+.bi-filter-seg-btn.active svg,
+.bi-filter-seg-btn.active img {
+    filter: brightness(0) saturate(100%) invert(77%) sepia(67%) saturate(1353%) hue-rotate(359deg) brightness(102%) contrast(106%);
+}
+
+.bi-tx-type-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    min-width: 112px;
+    padding: 0.42rem 0.9rem;
+    clip-path: polygon(9px 0, 100% 0, 100% calc(100% - 9px), calc(100% - 9px) 100%, 0 100%, 0 9px);
+    -webkit-clip-path: polygon(9px 0, 100% 0, 100% calc(100% - 9px), calc(100% - 9px) 100%, 0 100%, 0 9px);
+    font-size: 0.78rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border: none;
+}
+
+.bi-tx-type-badge.is-credit {
+    background: linear-gradient(135deg, #065f46 0%, #043f2e 100%);
+    color: #6ee7b7;
+}
+
+.bi-tx-type-badge.is-debit {
+    background: linear-gradient(135deg, #6b0f2a 0%, #450719 100%);
+    color: #fda4af;
+}
+
+.bi-tx-type-svg {
+    width: 15px;
+    height: 15px;
+    flex-shrink: 0;
+}
+
+/* Cajón desplegable de últimos movimientos */
+.bi-dash-topbar,
+#tabContentCuentas > .row {
+    transition: filter 0.35s ease, transform 0.35s ease, opacity 0.35s ease;
+}
+
+body.bi-movements-open .bi-dash-topbar,
+body.bi-movements-open #tabContentCuentas > .row {
+    filter: blur(8px) brightness(0.65);
+    transform: scale(0.985);
+    pointer-events: none;
+    user-select: none;
+}
+
+.bi-movements-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 1045;
+    background: rgba(2, 8, 18, 0.45);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    cursor: pointer !important;
+    animation: biFadeBackdrop 0.28s ease forwards;
+}
+
+.bi-movements-drawer {
+    position: relative;
+    z-index: 10;
+    height: calc(100vh - 515px);
+    min-height: 150px;
+    margin-bottom: 0 !important;
+    border-radius: 0 !important;
+    clip-path: polygon(22px 0, 100% 0, 100% 100%, 0 100%, 0 22px);
+    -webkit-clip-path: polygon(22px 0, 100% 0, 100% 100%, 0 100%, 0 22px);
+    overflow: hidden;
+    cursor: pointer;
+    transition: box-shadow 0.35s ease, background-color 0.35s ease;
+}
+
+.bi-movements-drawer:not(.is-expanded):hover {
+    box-shadow: 0 -8px 34px rgba(0, 0, 0, 0.48), 0 0 24px rgba(0, 163, 224, 0.14);
+}
+
+.bi-movements-inner-content {
+    filter: blur(6px);
+    opacity: 0.38;
+    pointer-events: none;
+    user-select: none;
+    transition: filter 0.35s ease, opacity 0.35s ease;
+}
+
+.bi-movements-blur-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    background: transparent;
+    transition: opacity 0.28s ease, visibility 0.28s ease;
+}
+
+.bi-movements-chevron-up {
+    width: 30px;
+    height: 26px;
+    flex-shrink: 0;
+    overflow: visible;
+    filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.5));
+    transition: transform 0.25s ease;
+}
+
+.bi-movements-drawer:not(.is-expanded):hover .bi-movements-chevron-up {
+    transform: translateY(-3px);
+}
+
+.bi-movements-prompt-text {
+    font-size: 0.92rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: #f8fafc;
+    text-shadow: 0 3px 12px rgba(0, 0, 0, 0.75);
+    transition: color 0.25s ease, letter-spacing 0.25s ease;
+}
+
+.bi-movements-drawer:not(.is-expanded):hover .bi-movements-prompt-text {
+    color: var(--bi-cyan);
+    letter-spacing: 1.5px;
+}
+
+.bi-movements-drawer.is-expanded {
+    position: fixed;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    width: min(1296px, calc(100vw - 1.5rem));
+    height: auto;
+    max-height: 82vh;
+    border-radius: 0 !important;
+    clip-path: polygon(22px 0, 100% 0, 100% 100%, 0 100%, 0 22px);
+    -webkit-clip-path: polygon(22px 0, 100% 0, 100% 100%, 0 100%, 0 22px);
+    z-index: 1050;
+    cursor: pointer;
+    background-color: var(--bi-blue-surface);
+    box-shadow: 0 -18px 60px rgba(0, 0, 0, 0.72);
+    display: flex;
+    flex-direction: column;
+    animation: biDrawerOpenUp 0.38s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.bi-movements-drawer.is-expanded #movementsTable {
+    cursor: default;
+}
+
+.bi-movements-drawer.is-closing {
+    position: fixed;
+    left: 50%;
+    bottom: 0;
+    width: min(1296px, calc(100vw - 1.5rem));
+    height: auto;
+    max-height: 82vh;
+    border-radius: 0 !important;
+    clip-path: polygon(22px 0, 100% 0, 100% 100%, 0 100%, 0 22px);
+    -webkit-clip-path: polygon(22px 0, 100% 0, 100% 100%, 0 100%, 0 22px);
+    z-index: 1050;
+    pointer-events: none;
+    animation: biDrawerCloseDown 0.28s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.bi-movements-drawer.is-expanded .bi-movements-inner-content {
+    filter: blur(0);
+    opacity: 1;
+    pointer-events: auto;
+    user-select: auto;
+    display: flex;
+    flex-direction: column;
+    max-height: calc(78vh - 3rem);
+}
+
+.bi-movements-drawer.is-expanded .bi-movements-blur-overlay {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.bi-movements-scroll-area {
+    max-height: calc(78vh - 125px);
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-right: 4px;
+}
+
+.bi-movements-scroll-area::-webkit-scrollbar { width: 6px; }
+.bi-movements-scroll-area::-webkit-scrollbar-track { background: rgba(4, 13, 26, 0.4); border-radius: 8px; }
+.bi-movements-scroll-area::-webkit-scrollbar-thumb { background: var(--bi-blue-elevated); border-radius: 8px; }
+.bi-movements-scroll-area::-webkit-scrollbar-thumb:hover { background: var(--bi-cyan); }
+
+/* Modal y formato de Estado de Cuenta */
+.bi-statement-modal-content {
+    background-color: var(--bi-blue-dark) !important;
+    border: none !important;
+    border-radius: 0 !important;
+    clip-path: polygon(24px 0, 100% 0, 100% calc(100% - 24px), calc(100% - 24px) 100%, 0 100%, 0 24px);
+    -webkit-clip-path: polygon(24px 0, 100% 0, 100% calc(100% - 24px), calc(100% - 24px) 100%, 0 100%, 0 24px);
+}
+
+.statement-box {
+    background-color: #ffffff;
+    color: #0f172a;
+    border-radius: var(--radius-md);
+    padding: 2.5rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    font-size: 0.9rem;
+    border: none;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+}
+
+.statement-bi-logo {
+    height: 40px;
+    width: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 2px 3px rgba(0, 43, 73, 0.9))
+            drop-shadow(0 0 2px rgba(0, 43, 73, 0.98))
+            drop-shadow(0 4px 8px rgba(0, 43, 73, 0.35));
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+}
+
+.statement-box hr {
+    border-color: #e2e8f0;
+    margin: 1.2rem 0;
+}
+
+.statement-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.statement-title {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: #002855;
+    margin: 0;
+}
+
+.statement-meta-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    background-color: #f1f5f9 !important;
+    border: none !important;
+    border-radius: 0 !important;
+    clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
+    -webkit-clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
+    padding: 1.2rem 1.35rem;
+    margin-bottom: 1.5rem;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+}
+
+.statement-summary-card {
+    background-color: #f1f5f9;
+    border: none !important;
+    border-radius: 0 !important;
+    clip-path: polygon(11px 0, 100% 0, 100% calc(100% - 11px), calc(100% - 11px) 100%, 0 100%, 0 11px);
+    -webkit-clip-path: polygon(11px 0, 100% 0, 100% calc(100% - 11px), calc(100% - 11px) 100%, 0 100%, 0 11px);
+    padding: 0.9rem 1.1rem;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+}
+
+.statement-summary-income { background-color: #ecfdf5 !important; }
+.statement-summary-expense { background-color: #fff1f2 !important; }
+.statement-summary-balance { background-color: #e2e8f0 !important; }
+
+.statement-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-top: 1rem;
+    border: none;
+}
+
+.statement-table th {
+    background-color: #002B49 !important;
+    color: #ffffff !important;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    font-weight: 800;
+    letter-spacing: 0.6px;
+    padding: 0.85rem 1rem;
+    text-align: left;
+    border: none !important;
+    border-radius: 0 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+}
+
+.statement-table th:first-child {
+    clip-path: polygon(10px 0, 100% 0, 100% 100%, 0 100%, 0 10px);
+    -webkit-clip-path: polygon(10px 0, 100% 0, 100% 100%, 0 100%, 0 10px);
+}
+
+.statement-table th:last-child {
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%);
+    -webkit-clip-path: polygon(0 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%);
+}
+
+.statement-table td {
+    padding: 0.8rem 1rem;
+    border-bottom: 1px solid #e2e8f0;
+    font-size: 0.82rem;
+    color: #1e293b;
+}
+
+.bi-stmt-close-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #e11d48 0%, #be123c 100%);
+    color: #ffffff;
+    border: none !important;
+    outline: none !important;
+    border-radius: 0 !important;
+    clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+    -webkit-clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+    padding: 0.7rem 1.45rem;
+    font-size: 0.9rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.bi-stmt-close-btn:hover {
+    background: linear-gradient(135deg, #f43f5e 0%, #e11d48 100%);
+    color: #ffffff;
+    transform: translateY(-2px);
+}
+
+.bi-stmt-print-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55rem;
+    background: linear-gradient(135deg, #FFD100 0%, #F5B700 100%);
+    color: #002B49;
+    border: none !important;
+    outline: none !important;
+    border-radius: 0 !important;
+    clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+    -webkit-clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+    padding: 0.7rem 1.55rem;
+    font-size: 0.9rem;
+    font-weight: 800;
+    cursor: pointer;
+    transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease;
+}
+
+.bi-stmt-print-btn:hover {
+    background: linear-gradient(135deg, #ffe033 0%, #FFD100 100%);
+    color: #002B49;
+    transform: translateY(-2px);
+}
+
+/* Modal de saldo inicial */
+.bi-initial-balance-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 2050;
+    background: rgba(0, 20, 40, 0.86);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.25rem;
+}
+
+.bi-initial-balance-card {
+    width: 100%;
+    max-width: 440px;
+    background: #ffffff;
+    border: none !important;
+    border-radius: 0 !important;
+    clip-path: polygon(20px 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%, 0 20px);
+    -webkit-clip-path: polygon(20px 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%, 0 20px);
+    padding: 2.25rem 2rem;
+    text-align: center;
+    animation: biInitialModalIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.bi-initial-balance-logo {
+    height: 46px;
+    width: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 2px 4px rgba(0, 43, 73, 0.85)) drop-shadow(0 0 2px rgba(0, 43, 73, 0.95));
+}
+
+.bi-initial-balance-title {
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: #002B49;
+    margin-bottom: 0.5rem;
+}
+
+.bi-initial-balance-subtitle {
+    font-size: 0.92rem;
+    color: #64748b;
+    line-height: 1.5;
+    margin-bottom: 1.5rem;
+}
+
+.bi-initial-balance-input-group {
+    display: flex;
+    align-items: center;
+    background: #f1f5f9;
+    border: none !important;
+    border-radius: 0 !important;
+    clip-path: polygon(11px 0, 100% 0, 100% calc(100% - 11px), calc(100% - 11px) 100%, 0 100%, 0 11px);
+    -webkit-clip-path: polygon(11px 0, 100% 0, 100% calc(100% - 11px), calc(100% - 11px) 100%, 0 100%, 0 11px);
+    padding: 0.65rem 1.1rem;
+    transition: background-color 0.2s ease;
+}
+
+.bi-initial-balance-input-group:focus-within {
+    background: #e2e8f0;
+}
+
+.bi-currency-prefix {
+    font-size: 1.55rem;
+    font-weight: 800;
+    color: #002B49;
+    margin-right: 0.65rem;
+    user-select: none;
+}
+
+.bi-initial-balance-input {
+    width: 100%;
+    border: none;
+    background: transparent;
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: #0f172a;
+    outline: none;
+}
+
+.bi-initial-balance-input::placeholder {
+    color: #94a3b8;
+    font-weight: 600;
+}
+
+.bi-initial-balance-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55rem;
+    background: linear-gradient(135deg, #003865 0%, #002B49 100%);
+    color: #ffffff;
+    border: none !important;
+    border-radius: 0 !important;
+    clip-path: polygon(11px 0, 100% 0, 100% calc(100% - 11px), calc(100% - 11px) 100%, 0 100%, 0 11px);
+    -webkit-clip-path: polygon(11px 0, 100% 0, 100% calc(100% - 11px), calc(100% - 11px) 100%, 0 100%, 0 11px);
+    padding: 0.9rem 1.25rem;
+    font-size: 0.96rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease;
+}
+
+.bi-initial-balance-btn:hover {
+    transform: translateY(-2px);
+    background: linear-gradient(135deg, #FFD100 0%, #F5B700 100%);
+    color: #002B49;
+}
+
+.bi-initial-balance-btn:hover img {
+    filter: brightness(0) saturate(100%) invert(11%) sepia(47%) saturate(2656%) hue-rotate(179deg) brightness(95%) contrast(103%);
+}
+
+.bi-initial-balance-btn:active {
+    transform: translateY(0);
+}
+
+/* Estilos de impresión del Estado de Cuenta (Idénticos en PC y Móvil) */
+@media print {
+    @page {
+        size: letter portrait;
+        margin: 10mm 12mm;
+    }
+
+    * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    html, body {
+        width: 100% !important;
+        height: auto !important;
+        min-height: 100% !important;
+        overflow: visible !important;
+        background: #ffffff !important;
+        color: #0f172a !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        font-family: 'Poppins', sans-serif !important;
+    }
+
+    body.modal-open {
+        overflow: visible !important;
+        padding-right: 0 !important;
+    }
+
+    body * {
+        visibility: hidden !important;
+    }
+
+    #statementModal,
+    #statementModal * {
+        visibility: visible !important;
+    }
+
+    .modal-backdrop,
+    .bi-dash-topbar,
+    #tabContentCuentas,
+    .ambient-glow-1,
+    .ambient-glow-2,
+    .modal-header,
+    .modal-footer {
+        display: none !important;
+    }
+
+    #statementModal {
+        position: absolute !important;
+        left: 0 !important;
+        top: 0 !important;
+        width: 100% !important;
+        min-width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        background: #ffffff !important;
+        overflow: visible !important;
+        display: block !important;
+    }
+
+    #statementModal .modal-dialog {
+        max-width: 100% !important;
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        transform: none !important;
+    }
+
+    #statementModal .modal-content,
+    #statementModal .bi-statement-modal-content {
+        border: none !important;
+        box-shadow: none !important;
+        background: #ffffff !important;
+        clip-path: none !important;
+        -webkit-clip-path: none !important;
+        max-height: none !important;
+        overflow: visible !important;
+        padding: 0 !important;
+    }
+
+    #statementModal .modal-body {
+        padding: 0 !important;
+        overflow: visible !important;
+        max-height: none !important;
+    }
+
+    .statement-box {
+        box-shadow: none !important;
+        padding: 0 !important;
+        border: none !important;
+        background: #ffffff !important;
+        overflow: visible !important;
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    /* Encabezado: Horizontal idéntico tanto en PC como en móvil */
+    .statement-header {
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: space-between !important;
+        align-items: flex-start !important;
+        width: 100% !important;
+        margin-bottom: 0.85rem !important;
+        gap: 1rem !important;
+    }
+
+    .statement-header > div:first-child {
+        text-align: left !important;
+    }
+
+    .statement-header .text-end {
+        text-align: right !important;
+    }
+
+    .statement-bi-logo {
+        height: 38px !important;
+        width: auto !important;
+    }
+
+    .statement-title {
+        font-size: 1.45rem !important;
+        font-weight: 800 !important;
+        color: #002B49 !important;
+        margin-bottom: 0.2rem !important;
+    }
+
+    /* Cuadrícula de metadatos: 3 columnas idénticas */
+    .statement-meta-grid {
+        display: grid !important;
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 1.25rem !important;
+        padding: 1rem 1.25rem !important;
+        background-color: #f1f5f9 !important;
+        margin-bottom: 1.25rem !important;
+        clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px) !important;
+        -webkit-clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px) !important;
+    }
+
+    .statement-meta-grid > div {
+        text-align: left !important;
+    }
+
+    /* Tarjetas de resumen: 3 columnas horizontales idénticas */
+    .statement-box .row.g-2.mb-4 {
+        display: flex !important;
+        flex-direction: row !important;
+        flex-wrap: nowrap !important;
+        margin-bottom: 1.25rem !important;
+        gap: 0.75rem !important;
+    }
+
+    .statement-box .row.g-2.mb-4 > [class*="col-"] {
+        flex: 1 1 0 !important;
+        max-width: 33.333% !important;
+        width: 33.333% !important;
+        padding: 0 !important;
+    }
+
+    .statement-summary-card {
+        padding: 0.85rem 1rem !important;
+        clip-path: polygon(11px 0, 100% 0, 100% calc(100% - 11px), calc(100% - 11px) 100%, 0 100%, 0 11px) !important;
+        -webkit-clip-path: polygon(11px 0, 100% 0, 100% calc(100% - 11px), calc(100% - 11px) 100%, 0 100%, 0 11px) !important;
+    }
+
+    .statement-summary-income { background-color: #ecfdf5 !important; }
+    .statement-summary-expense { background-color: #fff1f2 !important; }
+    .statement-summary-balance { background-color: #e2e8f0 !important; }
+
+    .statement-summary-card .fs-5 {
+        font-size: 1.15rem !important;
+        font-weight: 800 !important;
+    }
+
+    /* Tabla de detalle: 100% de ancho sin barras de desplazamiento */
+    .statement-table-wrapper {
+        overflow: visible !important;
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    .statement-table {
+        width: 100% !important;
+        min-width: 100% !important;
+        table-layout: fixed !important;
+        border-collapse: separate !important;
+        border-spacing: 0 !important;
+        margin-top: 0.5rem !important;
+    }
+
+    .statement-table th {
+        background-color: #002B49 !important;
+        color: #ffffff !important;
+        font-size: 0.74rem !important;
+        font-weight: 800 !important;
+        padding: 0.65rem 0.85rem !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.5px !important;
+    }
+
+    .statement-table th:first-child {
+        clip-path: polygon(10px 0, 100% 0, 100% 100%, 0 100%, 0 10px) !important;
+        -webkit-clip-path: polygon(10px 0, 100% 0, 100% 100%, 0 100%, 0 10px) !important;
+    }
+
+    .statement-table th:last-child {
+        clip-path: polygon(0 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%) !important;
+        -webkit-clip-path: polygon(0 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%) !important;
+    }
+
+    .statement-table td {
+        padding: 0.65rem 0.85rem !important;
+        border-bottom: 1px solid #e2e8f0 !important;
+        font-size: 0.8rem !important;
+        color: #1e293b !important;
+    }
+
+    .statement-table th:nth-child(1), .statement-table td:nth-child(1) { width: 17% !important; text-align: left !important; }
+    .statement-table th:nth-child(2), .statement-table td:nth-child(2) { width: 35% !important; text-align: left !important; }
+    .statement-table th:nth-child(3), .statement-table td:nth-child(3) { width: 22% !important; text-align: left !important; }
+    .statement-table th:nth-child(4), .statement-table td:nth-child(4) { width: 13% !important; text-align: right !important; }
+    .statement-table th:nth-child(5), .statement-table td:nth-child(5) { width: 13% !important; text-align: right !important; }
+}

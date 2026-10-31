@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bi en Línea</title>
+    <link rel="icon" type="image/png" href="../imas/logo.png">
+    <link rel="shortcut icon" href="../imas/logo.png" type="image/png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Estilos modulares -->
+    <link rel="stylesheet" href="../css/global.css?v=20261031e">
+    <link rel="stylesheet" href="../css/animated.css?v=20261031e">
+    <link rel="stylesheet" href="../css/navbar.css?v=20261029c">
+    <link rel="stylesheet" href="../css/uiverse.css?v=20261029c">
+    <link rel="stylesheet" href="../css/card.css?v=20261029d">
+    <link rel="stylesheet" href="../css/dashboard.css?v=20261031h">
+</head>
+
+<body class="bi-dashboard-body">
+
+    <div class="ambient-glow-1"></div>
+    <div class="ambient-glow-2"></div>
+
+    <!-- Barra superior y menú de perfil -->
+    <header class="bi-dash-topbar">
+        <div class="container d-flex align-items-center">
+            <div class="bi-profile-menu-wrapper" id="profileMenuWrapper">
+                <button type="button" class="bi-profile-avatar-btn" id="btnUserProfile" aria-expanded="false" aria-label="Perfil de usuario">
+                    <img src="../icons/user.svg" class="bi-profile-avatar-svg" alt="">
+                </button>
+
+                <div class="bi-profile-dropdown d-none" id="userProfileDropdown">
+                    <div class="bi-profile-dropdown-header">
+                        <div class="bi-profile-dropdown-info">
+                            <div class="bi-profile-name" id="profileNombre">---</div>
+                            <div class="bi-profile-username" id="profileUsuario">---</div>
+                        </div>
+                    </div>
+
+                    <div class="bi-profile-meta-list">
+                        <div class="bi-profile-meta-item">
+                            <span class="bi-profile-meta-label">Cuenta Bi</span>
+                            <span class="bi-profile-meta-value font-monospace" id="profileCuenta">---</span>
+                        </div>
+                        <div class="bi-profile-meta-item">
+                            <span class="bi-profile-meta-label">Correo</span>
+                            <span class="bi-profile-meta-value text-truncate" id="profileCorreo">---</span>
+                        </div>
+                    </div>
+
+                    <div class="bi-profile-actions">
+                        <button type="button" class="bi-profile-action-btn bi-profile-logout-btn" id="btnLogout">
+                            <img src="../icons/logout-navy.svg" class="svg-icon-sm" alt="">
+                            Cerrar Sesión
+                        </button>
+
+                        <button type="button" class="bi-profile-action-btn bi-profile-delete-btn" id="btnDeleteAccountTrigger">
+                            <img src="../icons/trash-white.svg" class="svg-icon-sm" alt="">
+                            Eliminar Cuenta
+                        </button>
+
+                        <div class="bi-delete-confirm-box d-none" id="deleteAccountConfirmBox">
+                            <p class="bi-delete-confirm-text">¿Confirmas eliminar permanentemente tu cuenta Bi?</p>
+                            <div class="d-flex gap-2">
+                                <button type="button" class="bi-btn-confirm-delete flex-grow-1" id="btnConfirmDeleteAccount">Sí, eliminar</button>
+                                <button type="button" class="bi-btn-cancel-delete flex-grow-1" id="btnCancelDeleteAccount">Cancelar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Botón Volver en barra superior (exclusivo para vista móvil en operaciones) -->
+            <button type="button" class="bi-op-back-btn bi-topbar-back-btn btn-volver-cuentas ms-auto d-none" id="btnTopbarBack" aria-label="Volver a Cuentas">
+                <img src="../icons/arrow-left-gold.svg" class="svg-icon-sm" alt="">
+                <span>Volver</span>
+            </button>
+        </div>
+    </header>
+
+    <main class="container mb-0 position-relative" style="z-index: 1;">
+
+        <!-- Vista: Cuentas y Movimientos -->
+        <section id="tabContentCuentas">
+            <div class="row g-4 mb-4">
+                <!-- Tarjeta virtual Bi -->
+                <div class="col-lg-5 d-flex flex-column justify-content-center align-items-center">
+                    <div class="bi-card-flipper-container">
+                        <div class="bi-card-flipper" id="cardFlipperDash" title="Haz clic sobre la tarjeta para voltearla">
+                            <div class="bi-card-face bi-card-front" id="dashCardFront">
+                                <div class="bi-card-glare"></div>
+                                <div class="bi-card-holder-overlay" id="dashCardHolder">Titular Bi</div>
+                            </div>
+                            <div class="bi-card-face bi-card-back" id="dashCardBack">
+                                <div class="bi-card-glare"></div>
+                                <div class="bi-card-holder-back-overlay" id="dashCardHolderBack">Titular Bi</div>
+                            </div>
+                        </div>
+
+                        <div class="bi-card-hint mt-3 text-secondary text-center small">
+                            Haz clic en la tarjeta para voltearla
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Panel de saldo disponible y accesos rápidos -->
+                <div class="col-lg-7">
+                    <div class="uiverse-card bi-balance-white-card h-100 d-flex flex-column justify-content-between">
+                        <div>
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="bi-balance-label small fw-bold text-uppercase" style="letter-spacing: 1px;">Saldo Total Disponible</span>
+                                <div class="d-flex align-items-center gap-2">
+                                    <span class="bi-balance-hide-label small fw-semibold">Ocultar saldo</span>
+                                    <label class="uiverse-switch">
+                                        <input type="checkbox" id="switchHideBalance">
+                                        <span class="uiverse-slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="display-5 fw-extrabold bi-main-balance-amount mb-3" id="dashMainBalance">
+                                Q 0.00
+                            </div>
+
+                            <div class="row g-2 mb-3">
+                                <div class="col-sm-6">
+                                    <div class="p-3 bi-info-subbox">
+                                        <div class="bi-subbox-label small">Número de Cuenta</div>
+                                        <div class="fw-bold bi-subbox-value font-monospace" id="dashAccountNumber">---</div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="p-3 bi-info-subbox">
+                                        <div class="bi-subbox-label small">Tipo de Producto</div>
+                                        <div class="fw-bold bi-subbox-value" id="dashAccountType">Cuenta Bi</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row g-2">
+                                <div class="col-6">
+                                    <div class="p-2 px-3 bi-metric-box bi-metric-income">
+                                        <div class="bi-subbox-label small">Total Ingresos</div>
+                                        <div class="fw-bold text-success fs-5" id="dashTotalIncome">Q 0.00</div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="p-2 px-3 bi-metric-box bi-metric-expense">
+                                        <div class="bi-subbox-label small">Total Egresos</div>
+                                        <div class="fw-bold text-danger fs-5" id="dashTotalExpense">Q 0.00</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row g-2 mt-4 pt-2 bi-quick-actions-row">
+                            <div class="col-4">
+                                <div class="uiverse-action-card bi-quick-action-btn" id="quickActionTransfer">
+                                    <img src="../icons/transfer-gold.svg" class="svg-icon-md" alt="">
+                                    <span class="small fw-bold">Transferir</span>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="uiverse-action-card bi-quick-action-btn" id="quickActionServices">
+                                    <img src="../icons/services-gold.svg" class="svg-icon-md" alt="">
+                                    <span class="small fw-bold">Servicios</span>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="uiverse-action-card bi-quick-action-btn" id="quickActionStatement">
+                                    <img src="../icons/statement-gold.svg" class="svg-icon-md" alt="">
+                                    <span class="small fw-bold">Estado</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cajón desplegable de últimos movimientos -->
+            <div class="bi-movements-backdrop d-none" id="movementsBackdrop"></div>
+
+            <div class="uiverse-card bi-movements-drawer" id="movementsDrawerCard">
+                <div class="bi-movements-blur-overlay" id="movementsBlurOverlay">
+                    <img src="../icons/chevron-up-double.svg" class="bi-movements-chevron-up" alt="">
+                    <span class="bi-movements-prompt-text">Click para ver últimos movimientos</span>
+                </div>
+
+                <div class="bi-movements-inner-content">
+                    <div class="bi-drawer-minimize-cue" aria-hidden="true">
+                        <img src="../icons/chevron-down-double.svg" class="bi-minimize-cue-svg" alt="">
+                    </div>
+
+                    <div class="bi-movements-top-row mb-3">
+                        <h4 class="bi-movements-title mb-0">Historial de Operaciones</h4>
+
+                        <div class="bi-tx-segmented-filter" role="tablist" aria-label="Filtrar movimientos">
+                            <button type="button" class="bi-filter-seg-btn active btn-filter-tx" data-filter="all">
+                                <img src="../icons/list-all.svg" alt="">
+                                Todos
+                            </button>
+                            <button type="button" class="bi-filter-seg-btn btn-filter-tx" data-filter="income">
+                                <img src="../icons/tx-income-arrow.svg" alt="">
+                                Ingresos
+                            </button>
+                            <button type="button" class="bi-filter-seg-btn btn-filter-tx" data-filter="expense">
+                                <img src="../icons/tx-expense-arrow.svg" alt="">
+                                Egresos
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="bi-movements-scroll-area">
+                        <div class="table-responsive">
+                            <table class="table table-custom" id="movementsTable">
+                                <thead>
+                                    <tr>
+                                        <th class="col-tx-desc">Descripción / Beneficiario</th>
+                                        <th class="col-tx-type text-center">Tipo</th>
+                                        <th class="col-tx-date text-center">Fecha y Hora</th>
+                                        <th class="col-tx-amount text-center">Monto</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="transactionsTableBody"></tbody>
+                            </table>
+                        </div>
+
+                        <div id="transactionsEmptyState" class="text-center py-5 d-none">
+                            <img src="../icons/transfer-muted.svg" class="svg-icon-lg mb-3 opacity-50" alt="">
+                            <p class="text-secondary mb-0">No se encontraron movimientos registrados con este filtro.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Vista: Transferencias -->
+        <section id="tabContentTransferencias" class="d-none">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="uiverse-card bi-operation-card">
+                        <div class="bi-op-header">
+                            <div class="bi-op-title-group">
+                                <h3 class="bi-op-title">Transferencias</h3>
+                                <img src="../icons/transfer-bi-title.svg" class="bi-op-title-icon" alt="">
+                            </div>
+                            <button type="button" class="bi-op-back-btn btn-volver-cuentas">
+                                <img src="../icons/arrow-left-gold.svg" class="svg-icon-sm" alt="">
+                                Volver
+                            </button>
+                        </div>
+
+                        <form id="formTransferencia" autocomplete="off">
+                            <div class="bi-op-field-group">
+                                <label for="transferDestino" class="bi-op-label">Número de Cuenta Destino</label>
+                                <div class="bi-op-field-shell">
+                                    <div class="bi-op-field-inner">
+                                        <img src="../icons/card-navy.svg" class="bi-op-field-icon" alt="">
+                                        <input type="text" class="bi-op-input" id="transferDestino" name="bi_cuenta_destino" placeholder="Ingresa el número de cuenta destino" autocomplete="off" list="biDestinosDatalist" required>
+                                    </div>
+                                </div>
+                                <datalist id="biDestinosDatalist"></datalist>
+                            </div>
+
+                            <div class="bi-op-field-group">
+                                <label for="transferMonto" class="bi-op-label">Monto a Transferir</label>
+                                <div class="bi-op-field-shell">
+                                    <div class="bi-op-field-inner">
+                                        <span class="bi-op-currency-prefix">Q</span>
+                                        <input type="number" class="bi-op-input bi-op-input-amount" id="transferMonto" placeholder="0.00" min="1" step="0.01" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="bi-op-field-group mb-4">
+                                <label for="transferConcepto" class="bi-op-label">Concepto o Motivo</label>
+                                <div class="bi-op-field-shell">
+                                    <div class="bi-op-field-inner">
+                                        <img src="../icons/doc-navy.svg" class="bi-op-field-icon" alt="">
+                                        <input type="text" class="bi-op-input" id="transferConcepto" placeholder="Motivo de la transferencia" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="bi-op-submit-btn w-100">
+                                <img src="../icons/transfer-gold.svg" class="svg-icon-sm" alt="">
+                                Confirmar y Transferir Fondos
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Vista: Pago de Servicios/Impuestos -->
+        <section id="tabContentServicios" class="d-none">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="uiverse-card bi-operation-card">
+                        <div class="bi-op-header">
+                            <div class="bi-op-title-group">
+                                <h3 class="bi-op-title">Pago de Servicios/Impuestos</h3>
+                                <img src="../icons/services-bi-title.svg" class="bi-op-title-icon" alt="">
+                            </div>
+                            <button type="button" class="bi-op-back-btn btn-volver-cuentas">
+                                <img src="../icons/arrow-left-gold.svg" class="svg-icon-sm" alt="">
+                                Volver
+                            </button>
+                        </div>
+
+                        <form id="formPagoServicio" autocomplete="off">
+                            <div class="bi-op-field-group">
+                                <label for="servicioNombre" class="bi-op-label">Servicio o Impuesto a Pagar</label>
+                                <div class="bi-op-field-shell">
+                                    <div class="bi-op-field-inner bi-op-select-wrap">
+                                        <img src="../icons/tax-bank-navy.svg" class="bi-op-field-icon" alt="">
+                                        <select class="bi-op-select" id="servicioNombre" required>
+                                            <optgroup label="Impuestos Directos SAT / BancaSAT (Declaraguate)">
+                                                <option value="SAT - ISR Régimen Opcional Simplificado sobre Ingresos (SAT-1311)">SAT - ISR Régimen Opcional Simplificado sobre Ingresos (SAT-1311)</option>
+                                                <option value="SAT - ISR Régimen Sobre las Utilidades de Actividades Lucrativas (SAT-1361)">SAT - ISR Régimen Sobre las Utilidades de Actividades Lucrativas (SAT-1361)</option>
+                                                <option value="SAT - ISR Rentas del Trabajo en Relación de Dependencia (SAT-1331)">SAT - ISR Rentas del Trabajo en Relación de Dependencia (SAT-1331)</option>
+                                                <option value="SAT - ISR Rentas de Capital, Ganancias y Pérdidas de Capital (SAT-1321)">SAT - ISR Rentas de Capital, Ganancias y Pérdidas de Capital (SAT-1321)</option>
+                                                <option value="SAT - ISR Declaración Jurada Anual (SAT-1411)">SAT - ISR Declaración Jurada Anual (SAT-1411)</option>
+                                                <option value="SAT - ISO Impuesto de Solidaridad Trimestral (SAT-1608)">SAT - ISO Impuesto de Solidaridad Trimestral (SAT-1608)</option>
+                                                <option value="SAT - Impuesto Sobre Herencias, Legados y Donaciones">SAT - Impuesto Sobre Herencias, Legados y Donaciones</option>
+                                            </optgroup>
+                                            <optgroup label="Impuestos Indirectos y al Consumo SAT (Declaraguate)">
+                                                <option value="SAT - IVA General Impuesto al Valor Agregado (SAT-2237)">SAT - IVA General Impuesto al Valor Agregado (SAT-2237)</option>
+                                                <option value="SAT - IVA Pequeño Contribuyente Régimen 5% (SAT-2046)">SAT - IVA Pequeño Contribuyente Régimen 5% (SAT-2046)</option>
+                                                <option value="SAT - IVA Contratos, Facturas Especiales y Retenciones (SAT-2085)">SAT - IVA Contratos, Facturas Especiales y Retenciones (SAT-2085)</option>
+                                                <option value="SAT - Timbres Fiscales y Papel Sellado Especial para Protocolos (SAT-7130)">SAT - Timbres Fiscales y Papel Sellado Especial para Protocolos (SAT-7130)</option>
+                                                <option value="SAT - IDP Impuesto a la Distribución de Petróleo y Combustibles (SAT-6017)">SAT - IDP Impuesto a la Distribución de Petróleo y Combustibles (SAT-6017)</option>
+                                                <option value="SAT - Impuesto Específico a la Distribución de Cemento (SAT-9208)">SAT - Impuesto Específico a la Distribución de Cemento (SAT-9208)</option>
+                                                <option value="SAT - Impuesto sobre Distribución de Bebidas Alcohólicas y Cervezas (SAT-3035)">SAT - Impuesto sobre Distribución de Bebidas Alcohólicas y Cervezas (SAT-3035)</option>
+                                                <option value="SAT - Impuesto a la Distribución de Bebidas Gaseosas, Isotónicas y Jugos">SAT - Impuesto a la Distribución de Bebidas Gaseosas, Isotónicas y Jugos</option>
+                                                <option value="SAT - Impuesto al Tabaco y sus Productos (SAT-5058)">SAT - Impuesto al Tabaco y sus Productos (SAT-5058)</option>
+                                            </optgroup>
+                                            <optgroup label="Impuestos de Vehículos, Comercio Exterior y Salida del País (SAT)">
+                                                <option value="SAT - ISCV Impuesto Sobre Circulación de Vehículos / Calcomanía (SAT-4091)">SAT - ISCV Impuesto Sobre Circulación de Vehículos / Calcomanía (SAT-4091)</option>
+                                                <option value="SAT - IPRIMA Impuesto Específico a la Primera Matrícula de Vehículos (SAT-4041)">SAT - IPRIMA Impuesto Específico a la Primera Matrícula de Vehículos (SAT-4041)</option>
+                                                <option value="SAT - Traspaso de Vehículos y Certificados de Propiedad (SAT-8611)">SAT - Traspaso de Vehículos y Certificados de Propiedad (SAT-8611)</option>
+                                                <option value="SAT - DAI Derechos Arancelarios a la Importación y Aduanas (DUCA)">SAT - DAI Derechos Arancelarios a la Importación y Aduanas (DUCA)</option>
+                                                <option value="SAT - Impuesto de Salida del País Vía Aérea / Terrestre (SAT-2026)">SAT - Impuesto de Salida del País Vía Aérea / Terrestre (SAT-2026)</option>
+                                                <option value="SAT - Boleta SAT-2000 / Convenios y Multas Tributarias (SAT-0819)">SAT - Boleta SAT-2000 / Convenios y Multas Tributarias (SAT-0819)</option>
+                                            </optgroup>
+                                            <optgroup label="Impuestos Municipales, Arbitrios y Contribuciones de Guatemala">
+                                                <option value="IUSI - Impuesto Único Sobre Inmuebles (Municipalidad / DICABI)">IUSI - Impuesto Único Sobre Inmuebles (Municipalidad / DICABI)</option>
+                                                <option value="Arbitrio Municipal - Boleto de Ornato">Arbitrio Municipal - Boleto de Ornato</option>
+                                                <option value="IGSS / IRTRA / INTECAP - Cuota Patronal y Laboral (Planilla Electrónica)">IGSS / IRTRA / INTECAP - Cuota Patronal y Laboral (Planilla Electrónica)</option>
+                                                <option value="EMETRA / PMT - Multas de Tránsito y Tasas Municipales">EMETRA / PMT - Multas de Tránsito y Tasas Municipales</option>
+                                                <option value="Contraloría General de Cuentas / Finiquito y Tasas Estatales">Contraloría General de Cuentas / Finiquito y Tasas Estatales</option>
+                                            </optgroup>
+                                            <optgroup label="Servicios Básicos y Telecomunicaciones">
+                                                <option value="EEGSA - Empresa Eléctrica de Guatemala">EEGSA - Empresa Eléctrica de Guatemala</option>
+                                                <option value="Energuate (DEOCSA / DEORSA) - Energía Eléctrica">Energuate (DEOCSA / DEORSA) - Energía Eléctrica</option>
+                                                <option value="EMPAGUA - Empresa Municipal de Agua">EMPAGUA - Empresa Municipal de Agua</option>
+                                                <option value="Claro Guatemala - Telefonía e Internet Hogar">Claro Guatemala - Telefonía e Internet Hogar</option>
+                                                <option value="Tigo Guatemala - Servicios Móviles y Residenciales">Tigo Guatemala - Servicios Móviles y Residenciales</option>
+                                            </optgroup>
+                                        </select>
+                                        <img src="../icons/chevron-down-navy.svg" class="bi-op-select-arrow" alt="">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="bi-op-field-group">
+                                <label for="servicioReferencia" class="bi-op-label">Número de Referencia, Boleta SAT-2000, NIT o Contador</label>
+                                <div class="bi-op-field-shell">
+                                    <div class="bi-op-field-inner">
+                                        <img src="../icons/hash-navy.svg" class="bi-op-field-icon" alt="">
+                                        <input type="text" class="bi-op-input" id="servicioReferencia" placeholder="Ingresa el número de boleta, NIT, contador o contrato" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="bi-op-field-group mb-4">
+                                <label for="servicioMonto" class="bi-op-label">Total a Pagar</label>
+                                <div class="bi-op-field-shell">
+                                    <div class="bi-op-field-inner">
+                                        <span class="bi-op-currency-prefix">Q</span>
+                                        <input type="number" class="bi-op-input bi-op-input-amount" id="servicioMonto" placeholder="0.00" min="1" step="0.01" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="bi-op-submit-btn w-100">
+                                <img src="../icons/services-gold.svg" class="svg-icon-sm" alt="">
+                                Realizar Pago Inmediato
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Vista: Estado de Cuenta -->
+        <section id="tabContentEstadoCuenta" class="d-none">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 text-center">
+                    <div class="uiverse-card py-5">
+                        <img src="../icons/print-cyan.svg" class="svg-icon-lg mb-3" alt="">
+                        <h3 class="fw-bold text-light mb-2">Estado de Cuenta Oficial</h3>
+                        <p class="text-secondary mb-4" style="max-width: 500px; margin: 0 auto;">
+                            Genera, revisa e imprime tu estado de cuenta con el formato formal de Banco Industrial correspondiente al período actual.
+                        </p>
+                        <button type="button" class="uiverse-btn-primary px-4 py-3" onclick="document.getElementById('quickActionStatement').click()">
+                            <img src="../icons/statement-gold.svg" class="svg-icon-sm" alt="">
+                            Generar e Imprimir Estado de Cuenta
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Modal de Estado de Cuenta para impresión -->
+    <div class="modal fade" id="statementModal" tabindex="-1" aria-labelledby="statementModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
+            <div class="modal-content bi-statement-modal-content">
+                <div class="modal-header d-flex justify-content-between align-items-center px-4 pt-4 pb-2" style="border: none;">
+                    <h4 class="bi-movements-title mb-0" id="statementModalTitle">Resumen de Estado de Cuenta</h4>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <div class="statement-box">
+                        <div class="statement-header">
+                            <div>
+                                <img src="../imas/logo-nombre.png" alt="Banco Industrial" class="statement-bi-logo">
+                                <div class="text-muted small mt-1">Banco Industrial S.A. • NIT: 1029384-5</div>
+                                <div class="text-muted small">7a. Avenida 5-10, Zona 4, Centro Financiero Torre I, Guatemala</div>
+                            </div>
+                            <div class="text-end">
+                                <h4 class="statement-title">ESTADO DE CUENTA</h4>
+                                <div class="text-muted small" id="stmtEmisionDate">Emisión: --/--/----</div>
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <div class="statement-meta-grid">
+                            <div>
+                                <div class="text-muted small text-uppercase fw-bold">Titular de la Cuenta</div>
+                                <div class="fw-bold text-dark fs-6" id="stmtTitular">-</div>
+                                <div class="text-muted small" id="stmtIdNumber">DPI: -</div>
+                            </div>
+                            <div>
+                                <div class="text-muted small text-uppercase fw-bold">Número de Cuenta Bi</div>
+                                <div class="fw-bold font-monospace fs-6" id="stmtAccountNum">-</div>
+                                <div class="text-muted small" id="stmtAccountType">Cuenta Bi</div>
+                            </div>
+                            <div>
+                                <div class="text-muted small text-uppercase fw-bold">Moneda / Corte</div>
+                                <div class="fw-bold text-dark">Quetzales (GTQ)</div>
+                                <div class="text-muted small">Corte al día de hoy</div>
+                            </div>
+                        </div>
+
+                        <div class="row g-2 mb-4">
+                            <div class="col-12 col-md-4">
+                                <div class="statement-summary-card statement-summary-income">
+                                    <div class="text-muted small">Total Abonos (+)</div>
+                                    <div class="fw-bold text-success fs-5" id="stmtTotalAbonos">Q 0.00</div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <div class="statement-summary-card statement-summary-expense">
+                                    <div class="text-muted small">Total Cargos (-)</div>
+                                    <div class="fw-bold text-danger fs-5" id="stmtTotalCargos">Q 0.00</div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <div class="statement-summary-card statement-summary-balance">
+                                    <div class="text-muted small">Saldo Final al Corte</div>
+                                    <div class="fw-bold text-dark fs-5" id="stmtFinalBalance">Q 0.00</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h6 class="fw-bold text-dark mb-2">Detalle de Movimientos del Período</h6>
+                        <div class="table-responsive statement-table-wrapper">
+                            <table class="statement-table">
+                                <thead>
+                                    <tr>
+                                        <th>Fecha</th>
+                                        <th>Concepto</th>
+                                        <th>Origen / Destino</th>
+                                        <th class="text-end">Crédito (+)</th>
+                                        <th class="text-end">Débito (-)</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="stmtTableBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer d-flex justify-content-end gap-2 px-4 pb-4 pt-1" style="border: none;">
+                    <button type="button" class="bi-stmt-close-btn" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="button" class="bi-stmt-print-btn" id="btnImprimirEstado">
+                        <img src="../icons/print-navy.svg" class="svg-icon-sm" alt="">
+                        Imprimir / Guardar como PDF
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de saldo inicial -->
+    <div id="initialBalanceOverlay" class="bi-initial-balance-backdrop d-none" role="dialog" aria-modal="true" aria-labelledby="initialBalanceTitle">
+        <div class="bi-initial-balance-card">
+            <img src="../imas/logo.png" alt="Banco Industrial" class="bi-initial-balance-logo mb-3">
+            <h2 class="bi-initial-balance-title" id="initialBalanceTitle">Saldo Inicial de Apertura</h2>
+            <p class="bi-initial-balance-subtitle">Ingresa el monto en Quetzales (Q) con el que iniciarás tu cuenta en Bi en Línea.</p>
+
+            <form id="formSaldoInicial" autocomplete="off">
+                <div class="bi-initial-balance-input-group mb-4">
+                    <span class="bi-currency-prefix">Q</span>
+                    <input
+                        type="number"
+                        id="inputSaldoInicial"
+                        class="bi-initial-balance-input"
+                        placeholder="0.00"
+                        min="0.01"
+                        step="0.01"
+                        required
+                    >
+                </div>
+
+                <button type="submit" class="bi-initial-balance-btn w-100">
+                    <img src="../icons/check-white.svg" class="svg-icon-sm" alt="">
+                    Confirmar Saldo Inicial
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Contenedor de notificaciones -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 9999999;">
+        <div id="appToast" class="toast toast-custom align-items-center" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-body-custom" id="appToastBody">
+                <img src="../icons/toast-check.svg" class="svg-icon-sm" alt="Notificación">
+                <span>Notificación bancaria</span>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/db.js?v=20261031a"></script>
+    <script src="../js/utils.js?v=20261031a"></script>
+    <script src="../js/card.js?v=20261029f"></script>
+    <script src="../js/dashboard.js?v=20261031a"></script>
+</body>
+
+</html>

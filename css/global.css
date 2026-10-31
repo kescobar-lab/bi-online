@@ -1,0 +1,435 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+/* Variables y estilos globales Banco Industrial */
+:root {
+    --bi-blue-darkest: #040d1a;
+    --bi-blue-dark: #07172e;
+    --bi-blue-surface: #0c2344;
+    --bi-blue-elevated: #112f5a;
+    --bi-blue-corporate: #002855;
+
+    --bi-cyan: #00a3e0;
+    --bi-cyan-hover: #008ec4;
+    --bi-cyan-glow: rgba(0, 163, 224, 0.35);
+
+    --bi-yellow: #ffb81c;
+    --bi-yellow-glow: rgba(255, 184, 28, 0.3);
+
+    --bi-emerald: #10b981;
+    --bi-emerald-bg: #064e3b;
+    --bi-rose: #f43f5e;
+    --bi-rose-bg: #4c0519;
+
+    --text-primary: #ffffff;
+    --text-secondary: #9cb3d1;
+    --text-muted: #627d9e;
+
+    --radius-sm: 8px;
+    --radius-md: 14px;
+    --radius-lg: 20px;
+    --radius-xl: 28px;
+
+    --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-smooth: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+button,
+input,
+select,
+textarea {
+    font-family: 'Poppins', sans-serif;
+}
+
+html,
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--bi-blue-darkest);
+    color: var(--text-primary);
+    height: 100vh;
+    overflow: hidden;
+    line-height: 1.6;
+}
+
+@media (max-width: 991px) {
+    html,
+    body {
+        height: auto !important;
+        min-height: 100% !important;
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+    }
+}
+
+/* Resplandor ambiental */
+.ambient-glow-1 {
+    position: fixed;
+    top: -120px;
+    left: -100px;
+    width: 480px;
+    height: 480px;
+    background: radial-gradient(circle, rgba(0, 40, 85, 0.4) 0%, rgba(0, 40, 85, 0) 70%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.ambient-glow-2 {
+    position: fixed;
+    top: 40%;
+    right: -150px;
+    width: 550px;
+    height: 550px;
+    background: radial-gradient(circle, rgba(0, 163, 224, 0.15) 0%, rgba(0, 163, 224, 0) 70%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Dimensiones base para íconos SVG */
+.svg-icon-sm {
+    width: 18px;
+    height: 18px;
+    display: inline-block;
+    vertical-align: -0.15em;
+    flex-shrink: 0;
+}
+
+.svg-icon-md {
+    width: 24px;
+    height: 24px;
+    display: inline-block;
+    vertical-align: middle;
+    flex-shrink: 0;
+}
+
+.svg-icon-lg {
+    width: 32px;
+    height: 32px;
+    display: inline-block;
+    vertical-align: middle;
+    flex-shrink: 0;
+}
+
+/* Insignias de estado */
+.badge-custom {
+    padding: 0.4rem 0.85rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    letter-spacing: 0.3px;
+    border: none;
+}
+
+.badge-income {
+    background-color: var(--bi-emerald-bg);
+    color: #34d399;
+    border: 1px solid var(--bi-emerald-bg);
+}
+
+.badge-expense {
+    background-color: var(--bi-rose-bg);
+    color: #fb7185;
+    border: 1px solid var(--bi-rose-bg);
+}
+
+.badge-service {
+    background-color: #0c3359;
+    color: #38bdf8;
+    border: 1px solid #0c3359;
+}
+
+/* Sistema de notificaciones Bi */
+#appToast.toast-custom {
+    --toast-accent: #00c1d4;
+    --toast-accent-bg: rgba(0, 193, 212, 0.14);
+    --toast-accent-glow: rgba(0, 193, 212, 0.38);
+    display: none;
+    align-items: center;
+    gap: 16px;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 4px !important;
+    overflow: visible !important;
+    pointer-events: auto;
+    cursor: pointer;
+}
+
+@media (max-width: 991px) {
+    .toast-container {
+        position: fixed !important;
+        top: max(12px, env(safe-area-inset-top, 12px)) !important;
+        right: 12px !important;
+        bottom: auto !important;
+        left: auto !important;
+        transform: none !important;
+        width: auto !important;
+        max-width: calc(100vw - 76px) !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        z-index: 999999 !important;
+        display: flex !important;
+        justify-content: flex-end !important;
+        pointer-events: none !important;
+    }
+
+    #appToast.toast-custom {
+        gap: 8px !important;
+        width: auto !important;
+        max-width: 100% !important;
+        justify-content: flex-end !important;
+        pointer-events: auto !important;
+    }
+
+    .bi-toast-scene-svg {
+        width: 38px !important;
+        height: 38px !important;
+        filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.45)) drop-shadow(0 0 8px var(--toast-accent-glow)) !important;
+    }
+
+    .bi-toast-card {
+        min-width: 0 !important;
+        width: auto !important;
+        max-width: 250px !important;
+        padding: 0.45rem 0.75rem 0.5rem !important;
+        clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px) !important;
+        -webkit-clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px) !important;
+        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.5) !important;
+    }
+
+    .bi-toast-card::before {
+        inset: 2px !important;
+        clip-path: polygon(9px 0, 100% 0, 100% calc(100% - 9px), calc(100% - 9px) 100%, 0 100%, 0 9px) !important;
+        -webkit-clip-path: polygon(9px 0, 100% 0, 100% calc(100% - 9px), calc(100% - 9px) 100%, 0 100%, 0 9px) !important;
+    }
+
+    .bi-toast-title {
+        font-size: 0.74rem !important;
+        letter-spacing: 0.4px !important;
+        margin-bottom: 0.15rem !important;
+        line-height: 1.2 !important;
+    }
+
+    .bi-toast-desc {
+        font-size: 0.72rem !important;
+        line-height: 1.35 !important;
+    }
+
+    #appToast.bi-toast-entering .bi-toast-card {
+        animation: biToastBlockDownMobile 0.38s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+    }
+
+    #appToast.bi-toast-entering .bi-toast-scene-svg {
+        animation: biToastSceneDownMobile 0.42s cubic-bezier(0.18, 1.15, 0.32, 1) forwards !important;
+    }
+
+    #appToast.bi-toast-leaving .bi-toast-card {
+        animation: biToastBlockUpMobile 0.3s cubic-bezier(0.4, 0, 1, 1) forwards !important;
+    }
+
+    #appToast.bi-toast-leaving .bi-toast-scene-svg {
+        animation: biToastSceneUpMobile 0.28s cubic-bezier(0.4, 0, 1, 1) forwards !important;
+    }
+}
+
+#appToast.toast-custom.bi-toast-visible {
+    display: flex !important;
+}
+
+.bi-toast-scene-svg {
+    width: 66px;
+    height: 66px;
+    flex-shrink: 0;
+    overflow: visible;
+    filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.55)) drop-shadow(0 0 14px var(--toast-accent-glow));
+    transform-origin: center bottom;
+}
+
+.bi-toast-card {
+    position: relative;
+    overflow: hidden;
+    min-width: 295px;
+    max-width: 390px;
+    background: var(--toast-accent);
+    border: none !important;
+    border-radius: 0 !important;
+    clip-path: polygon(14px 0, 100% 0, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0 100%, 0 14px);
+    -webkit-clip-path: polygon(14px 0, 100% 0, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0 100%, 0 14px);
+    padding: 1.05rem 1.3rem 1.1rem;
+    box-shadow: 0 14px 32px rgba(0, 21, 38, 0.35);
+}
+
+.bi-toast-card::before {
+    content: '';
+    position: absolute;
+    inset: 2.5px;
+    background: #ffffff;
+    clip-path: polygon(13px 0, 100% 0, 100% calc(100% - 13px), calc(100% - 13px) 100%, 0 100%, 0 13px);
+    -webkit-clip-path: polygon(13px 0, 100% 0, 100% calc(100% - 13px), calc(100% - 13px) 100%, 0 100%, 0 13px);
+    z-index: 0;
+    pointer-events: none;
+}
+
+.bi-toast-title {
+    position: relative;
+    z-index: 1;
+    font-size: 0.92rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: var(--toast-title-color, var(--toast-accent));
+    margin-bottom: 0.3rem;
+    line-height: 1.25;
+}
+
+.bi-toast-desc {
+    position: relative;
+    z-index: 1;
+    margin: 0;
+    font-size: 0.86rem;
+    font-weight: 600;
+    color: #002B49;
+    line-height: 1.48;
+}
+
+/* Excepción de diseño oscuro para notificación de Credenciales Cargadas */
+.bi-toast-card.is-credentials-toast {
+    background: linear-gradient(145deg, rgba(10, 26, 48, 0.97) 0%, rgba(5, 15, 30, 0.98) 100%);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+}
+
+.bi-toast-card.is-credentials-toast::before {
+    display: none;
+}
+
+.bi-toast-card.is-credentials-toast .bi-toast-title {
+    color: var(--toast-accent);
+}
+
+.bi-toast-card.is-credentials-toast .bi-toast-desc {
+    color: #e2e8f0;
+    font-weight: 500;
+}
+
+#appToast.bi-toast-entering .bi-toast-card {
+    animation: biToastBlockUp 0.44s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+#appToast.bi-toast-entering .bi-toast-scene-svg {
+    animation: biToastSceneUp 0.5s cubic-bezier(0.18, 1.15, 0.32, 1) forwards;
+}
+
+#appToast.bi-toast-leaving .bi-toast-card {
+    animation: biToastBlockDown 0.34s cubic-bezier(0.4, 0, 1, 1) forwards;
+}
+
+#appToast.bi-toast-leaving .bi-toast-scene-svg {
+    animation: biToastSceneDown 0.32s cubic-bezier(0.4, 0, 1, 1) forwards;
+}
+
+/* Fondo poligonal interactivo */
+.apple-scroll-track {
+    position: relative;
+    height: 100vh !important;
+    width: 100%;
+    overflow: hidden !important;
+}
+
+.apple-pinned-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden !important;
+    z-index: 2;
+    padding: 0 !important;
+    box-sizing: border-box;
+    pointer-events: none;
+}
+
+.apple-bg-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.apple-bg-polygon {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    clip-path: polygon(42% 0, 100% 0, 100% 100%, 54% 100%);
+    -webkit-clip-path: polygon(42% 0, 100% 0, 100% 100%, 54% 100%);
+    overflow: hidden;
+    background-color: var(--bi-blue-darkest);
+    border: none;
+}
+
+.apple-bg-img {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 100%;
+    min-width: 900px;
+    height: 280vh;
+    object-fit: cover;
+    object-position: 70% top;
+    will-change: transform, filter;
+    transform: translate3d(0, 0, 0) scale(1.06);
+    filter: blur(14px) brightness(0.96) contrast(1.06) saturate(1.10);
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: high-quality;
+}
+
+.apple-bg-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right, rgba(4, 13, 26, 0.94) 0%, rgba(4, 13, 26, 0.55) 28%, rgba(4, 13, 26, 0.12) 65%, rgba(0, 40, 85, 0.3) 100%);
+    pointer-events: none;
+    border: none;
+}
+
+@media (max-width: 991px) {
+    .apple-scroll-track {
+        height: auto;
+        min-height: 100vh;
+    }
+
+    .apple-pinned-screen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        min-height: 100vh;
+        padding-top: 85px;
+        padding-bottom: 20px;
+    }
+
+    .apple-bg-img {
+        min-width: 650px;
+        object-position: 80% top;
+    }
+}

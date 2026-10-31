@@ -1,0 +1,21 @@
+<svg viewBox="0 0 220 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .track { stroke: rgba(255, 255, 255, 0.08); stroke-width: 7; }
+    .cyan {
+      stroke: #00A3E0; stroke-width: 7; stroke-linecap: round;
+      stroke-dasharray: 180 400; transform-origin: 110px 110px;
+      animation: spinCw 1.35s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+    }
+    .gold {
+      stroke: #FFB81C; stroke-width: 5.5; stroke-linecap: round;
+      stroke-dasharray: 115 380; transform-origin: 110px 110px;
+      animation: spinCcw 1.75s linear infinite;
+    }
+    @keyframes spinCw { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    @keyframes spinCcw { from { transform: rotate(360deg); } to { transform: rotate(0deg); } }
+  </style>
+  <circle class="track" cx="110" cy="110" r="92"/>
+  <circle class="cyan" cx="110" cy="110" r="92"/>
+  <circle class="gold" cx="110" cy="110" r="78"/>
+</svg>
+

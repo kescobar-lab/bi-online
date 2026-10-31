@@ -1,0 +1,17 @@
+<svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .walker { animation: walkOut 1.3s ease-in-out infinite; }
+    @keyframes walkOut {
+      0% { opacity: 0.4; transform: translateX(-8px); }
+      55% { opacity: 1; transform: translateX(4px); }
+      100% { opacity: 0.25; transform: translateX(9px); }
+    }
+  </style>
+  <path d="M30 14H16a2.5 2.5 0 0 0-2.5 2.5v31A2.5 2.5 0 0 0 16 50h14" fill="#260812" stroke="#f43f5e" stroke-width="2.4" stroke-linecap="round"/>
+  <g class="walker">
+    <circle cx="38" cy="22" r="4.2" fill="#fda4af"/>
+    <path d="M33 34l5-5 6 3M38 29l-2 9-5 6M36 38l6 7" stroke="#fda4af" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M46 32h9m0 0l-3.5-3.5M55 32l-3.5 3.5" stroke="#fb7185" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+</svg>
+

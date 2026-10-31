@@ -1,0 +1,186 @@
+/* Estilos de la Tarjeta 3D Bi */
+
+.bi-card-flipper-container {
+    perspective: 1400px;
+    width: 100%;
+    max-width: 440px;
+    margin: 0 auto;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.bi-card-flipper {
+    position: relative;
+    width: 100%;
+    max-width: 440px;
+    aspect-ratio: 1500 / 900;
+    transform-style: preserve-3d;
+    transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.4s ease;
+    cursor: pointer;
+    border-radius: 19px;
+    display: block;
+    margin: 0 auto;
+    transform: perspective(1200px) rotateX(0deg) rotateY(0deg);
+    transform-origin: center center;
+}
+
+.bi-card-flipper:hover {
+    transform: perspective(1200px) rotateX(4deg) rotateY(-5deg);
+}
+
+.bi-card-flipper.is-flipped {
+    transform: perspective(1200px) rotateY(180deg);
+}
+
+.bi-card-flipper.is-flipped:hover {
+    transform: perspective(1200px) rotateY(180deg) rotateX(4deg);
+}
+
+.bi-card-face {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 19px;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    overflow: hidden;
+    border: none;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.85), 0 0 25px rgba(0, 0, 0, 0.5);
+    transition: box-shadow 0.4s ease, filter 0.4s ease, background-image 0.35s ease;
+    transform-origin: center center;
+}
+
+.bi-card-flipper:hover .bi-card-face {
+    box-shadow: 0 32px 70px rgba(0, 0, 0, 0.95), 0 0 50px rgba(0, 163, 224, 0.45);
+}
+
+/* Brillo especular dinámico */
+.bi-card-glare {
+    position: absolute;
+    inset: 0;
+    border-radius: 19px;
+    pointer-events: none;
+    background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.05) 35%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    mix-blend-mode: overlay;
+    z-index: 10;
+}
+
+.bi-card-flipper:hover .bi-card-glare {
+    opacity: 1;
+}
+
+/* Frente y reverso de la tarjeta */
+.bi-card-front {
+    background-color: transparent;
+    background-image: url('../imas/tarjeta/classic/bi-classic-front.png');
+    background-size: 100% 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    transform: rotateY(0deg);
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    image-rendering: -webkit-optimize-contrast;
+}
+
+.bi-card-holder-overlay {
+    position: absolute;
+    bottom: 9.8%;
+    left: 6.2%;
+    max-width: 56%;
+    font-family: 'Poppins', system-ui, -apple-system, sans-serif;
+    font-size: clamp(0.88rem, 2.2vw, 1.15rem);
+    font-weight: 500;
+    letter-spacing: 0.4px;
+    color: #ffffff;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.55);
+    background: transparent;
+    border: none;
+    padding: 0;
+    line-height: 1.15;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: none;
+    user-select: none;
+    z-index: 5;
+}
+
+.bi-card-holder-overlay.is-active {
+    display: inline-block;
+}
+
+.bi-card-holder-overlay.is-dark-text {
+    color: #2d3135;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.35);
+}
+
+.bi-card-back {
+    background-color: transparent;
+    background-image: url('../imas/tarjeta/classic/bi-classic-back.png');
+    background-size: 100% 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    transform: rotateY(180deg);
+    border: none;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    image-rendering: -webkit-optimize-contrast;
+}
+
+.bi-card-holder-back-overlay {
+    position: absolute;
+    top: 48.2%;
+    left: 29.5%;
+    max-width: 58%;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-style: italic;
+    font-size: clamp(0.86rem, 2.1vw, 1.12rem);
+    font-weight: 400;
+    letter-spacing: 0.3px;
+    color: #ffffff;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.55);
+    background: transparent;
+    border: none;
+    padding: 0;
+    line-height: 1.15;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: none;
+    user-select: none;
+    z-index: 5;
+}
+
+.bi-card-holder-back-overlay.is-active {
+    display: inline-block;
+}
+
+.bi-card-hint {
+    opacity: 0.75;
+    font-size: 0.8rem;
+    letter-spacing: 0.5px;
+    user-select: none;
+}
+
+@media (max-width: 768px) {
+    .bi-card-flipper-container {
+        max-width: 320px;
+    }
+    .bi-card-holder-overlay { font-size: 0.82rem; }
+    .bi-card-holder-back-overlay { font-size: 0.8rem; }
+    .bi-card-hint {
+        margin-top: 0.5rem !important;
+        font-size: 0.74rem;
+    }
+}
