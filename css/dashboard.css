@@ -10,19 +10,19 @@ body.bi-dashboard-body {
 @media (max-width: 991px) {
     html,
     html:has(.bi-dashboard-body) {
-        height: auto !important;
-        min-height: 100% !important;
-        max-height: none !important;
-        overflow-y: auto !important;
-        overflow-x: hidden !important;
+        height: 100vh !important;
+        height: 100dvh !important;
+        max-height: 100vh !important;
+        max-height: 100dvh !important;
+        overflow: hidden !important;
     }
 
     body.bi-dashboard-body {
-        min-height: 100vh !important;
-        min-height: 100dvh !important;
-        height: auto !important;
-        overflow-y: auto !important;
-        overflow-x: hidden !important;
+        height: 100vh !important;
+        height: 100dvh !important;
+        max-height: 100vh !important;
+        max-height: 100dvh !important;
+        overflow: hidden !important;
         display: flex !important;
         flex-direction: column !important;
         margin: 0 !important;
@@ -30,7 +30,7 @@ body.bi-dashboard-body {
     }
 
     .bi-dash-topbar {
-        padding: 1.25rem 0 0.45rem !important;
+        padding: 0.65rem 0 0.25rem !important;
         flex-shrink: 0 !important;
     }
 
@@ -695,8 +695,8 @@ body.bi-dashboard-body {
 
 @media (max-width: 991px) {
     main.container {
-        padding-left: 1rem !important;
-        padding-right: 1rem !important;
+        padding-left: 0.85rem !important;
+        padding-right: 0.85rem !important;
         padding-bottom: 0 !important;
         margin-bottom: 0 !important;
         flex: 1 1 auto !important;
@@ -704,15 +704,20 @@ body.bi-dashboard-body {
         flex-direction: column !important;
         width: 100% !important;
         max-width: 100% !important;
+        overflow: hidden !important;
+        min-height: 0 !important;
     }
 
     #tabContentCuentas {
         flex: 1 1 auto !important;
         display: flex !important;
         flex-direction: column !important;
+        justify-content: space-between !important;
         margin-bottom: 0 !important;
         padding-bottom: 0 !important;
         width: 100% !important;
+        overflow: hidden !important;
+        min-height: 0 !important;
     }
 
     #tabContentCuentas.d-none {
@@ -720,8 +725,35 @@ body.bi-dashboard-body {
     }
 
     #tabContentCuentas > .row {
-        margin-bottom: 0.35rem !important;
-        flex-shrink: 0 !important;
+        margin: 0 !important;
+        flex: 1 1 auto !important;
+        min-height: 0 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        flex-wrap: nowrap !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        gap: 0.35rem !important;
+        width: 100% !important;
+    }
+
+    #tabContentCuentas > .row > .col-lg-5 {
+        flex: 0 0 auto !important;
+        width: 100% !important;
+        padding: 0 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+    }
+
+    #tabContentCuentas > .row > .col-lg-7 {
+        flex: 1 1 auto !important;
+        width: 100% !important;
+        min-height: 0 !important;
+        padding: 0 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: flex-end !important;
     }
 
     /* Botón Volver en la barra superior al nivel del botón de perfil (móvil) */
@@ -846,69 +878,77 @@ body.bi-dashboard-body {
     }
 
     .bi-card-flipper-container {
-        max-width: 360px !important;
+        max-width: min(230px, 22vh) !important;
         width: 100% !important;
         margin: 0 auto !important;
         flex-shrink: 0 !important;
     }
 
     .bi-card-flipper {
-        max-width: 360px !important;
+        max-width: 100% !important;
     }
 
     .bi-card-hint {
-        margin-top: 0.35rem !important;
+        margin-top: 0.15rem !important;
         margin-bottom: 0 !important;
-        font-size: 0.74rem !important;
+        font-size: 0.65rem !important;
     }
 
     .bi-balance-white-card {
-        padding: 1.15rem 1.25rem !important;
-        margin-top: 0.25rem !important;
-        justify-content: flex-start !important;
-        flex-shrink: 0 !important;
+        padding: 0.65rem 0.85rem !important;
+        margin-top: 0 !important;
+        margin-bottom: 0 !important;
+        justify-content: space-between !important;
+        flex: 1 1 auto !important;
+        min-height: 0 !important;
+    }
+
+    .bi-balance-white-card .mb-3,
+    .bi-balance-white-card .mb-4 {
+        margin-bottom: 0.25rem !important;
     }
 
     .bi-quick-actions-row {
-        margin-top: 0.65rem !important;
+        margin-top: 0.25rem !important;
         padding-top: 0 !important;
     }
 
     .bi-main-balance-amount {
-        font-size: clamp(1.85rem, 6.8vw, 2.35rem) !important;
-        margin-bottom: 0.75rem !important;
+        font-size: clamp(1.3rem, 4.8vw, 1.75rem) !important;
+        margin-bottom: 0.25rem !important;
+        line-height: 1.15 !important;
     }
 
     .bi-info-subbox {
-        padding: 0.55rem 0.85rem !important;
+        padding: 0.25rem 0.55rem !important;
     }
 
     .bi-subbox-label {
-        font-size: 0.68rem !important;
+        font-size: 0.6rem !important;
     }
 
     .bi-subbox-value {
-        font-size: 0.88rem !important;
+        font-size: 0.75rem !important;
     }
 
     .bi-metric-box {
-        padding: 0.45rem 0.75rem !important;
+        padding: 0.25rem 0.55rem !important;
     }
 
     .bi-metric-box .fs-5 {
-        font-size: 0.95rem !important;
+        font-size: 0.82rem !important;
     }
 
     .bi-quick-action-btn {
-        padding: 0.6rem 0.4rem !important;
-        gap: 6px !important;
-        font-size: 0.76rem !important;
+        padding: 0.4rem 0.3rem !important;
+        gap: 4px !important;
+        font-size: 0.7rem !important;
     }
 
     .bi-quick-action-btn svg,
     .bi-quick-action-btn img {
-        width: 17px !important;
-        height: 17px !important;
+        width: 14px !important;
+        height: 14px !important;
     }
 
     /* Cajón de movimientos en móvil: IDÉNTICO a la versión de computadora y acoplado al límite inferior */
@@ -916,16 +956,16 @@ body.bi-dashboard-body {
         display: block !important;
         visibility: visible !important;
         opacity: 1 !important;
-        flex: 1 1 auto !important;
-        height: auto !important;
-        min-height: 85px !important;
-        max-height: none !important;
-        margin-top: 1.15rem !important;
+        flex-shrink: 0 !important;
+        height: 52px !important;
+        min-height: 52px !important;
+        max-height: 52px !important;
+        margin-top: 0.35rem !important;
         margin-bottom: 0 !important;
         padding: 0 !important;
         border-radius: 0 !important;
-        clip-path: polygon(22px 0, 100% 0, 100% 100%, 0 100%, 0 22px) !important;
-        -webkit-clip-path: polygon(22px 0, 100% 0, 100% 100%, 0 100%, 0 22px) !important;
+        clip-path: polygon(18px 0, 100% 0, 100% 100%, 0 100%, 0 18px) !important;
+        -webkit-clip-path: polygon(18px 0, 100% 0, 100% 100%, 0 100%, 0 18px) !important;
         background-color: var(--bi-blue-surface) !important;
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45) !important;
         overflow: hidden !important;
@@ -953,31 +993,33 @@ body.bi-dashboard-body {
         flex-direction: column !important;
         align-items: center !important;
         justify-content: center !important;
-        gap: 5px !important;
-        padding: 6px 10px 1.5rem !important;
+        gap: 3px !important;
+        padding: 4px 10px !important;
         background: transparent !important;
         cursor: pointer !important;
         z-index: 5 !important;
-        transform: translateY(-8px) !important;
+        transform: none !important;
     }
 
     .bi-movements-drawer:not(.is-expanded) .bi-movements-chevron-up {
-        width: 24px !important;
-        height: 18px !important;
+        width: 20px !important;
+        height: 14px !important;
         flex-shrink: 0 !important;
         filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.6)) !important;
         animation: biChevPulseUp 1.8s infinite ease-in-out !important;
     }
 
     .bi-movements-drawer:not(.is-expanded) .bi-movements-prompt-text {
-        font-size: 0.74rem !important;
+        font-size: 0.7rem !important;
         font-weight: 800 !important;
         text-transform: uppercase !important;
-        letter-spacing: 1px !important;
+        letter-spacing: 0.8px !important;
         color: #f8fafc !important;
-        line-height: 1.2 !important;
+        line-height: 1 !important;
         text-align: center !important;
         white-space: nowrap !important;
+        text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7) !important;
+    }
         text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7) !important;
     }
 
