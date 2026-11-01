@@ -1,4 +1,4 @@
-// Gestión de base de datos híbrida con persistencia local permanente (LocalStorage) y sincronización Cloud (TextDB)
+// Gestión de base de datos híbrida con sincronización en tiempo real en la nube (TextDB Cloud API) y respaldo permanente local (LocalStorage)
 
 const DB_KEYS = {
     ACCOUNTS: 'bi_accounts_db',
@@ -23,12 +23,12 @@ const ADMIN_ACCOUNT = {
     pin: '123456',
     dpi: '1234567890101',
     tipo: 'Cuenta Monetaria Bi Black',
-    saldo: 7500000.00,
+    saldo: 50000.00,
     requiereSaldoInicial: false,
     fechaApertura: '2026-01-01'
 };
 
-// Estado en memoria respaldado en LocalStorage
+// Estado en memoria respaldado en LocalStorage y sincronizado con TextDB Cloud
 let cloudMemoryState = {
     accounts: [{ ...ADMIN_ACCOUNT }],
     transactions: [],
@@ -80,7 +80,7 @@ function loadFromStorage() {
         const storedTxs = localStorage.getItem(DB_KEYS.TRANSACTIONS);
         if (storedTxs) {
             const parsedTxs = JSON.parse(storedTxs);
-            if (Array.isArray(parsedTxs)) {
+            if (Array.isArray(parsedTxs) && parsedTxs.length > 0) {
                 cloudMemoryState.transactions = parsedTxs;
             }
         }
@@ -135,13 +135,16 @@ async function pushDatabaseToCloud() {
             deletedIds: cloudMemoryState.deletedIds,
             updatedAt: cloudMemoryState.updatedAt || Date.now()
         };
-        await fetch(CLOUD_DB_URL, {
+        const response = await fetch(CLOUD_DB_URL, {
             method: 'POST',
-            headers: { 'Content-Type': 'text/plain;charset=UTF-8' },
+            headers: { 'Content-Type': 'text/plain' },
             body: JSON.stringify(payload),
             keepalive: true
         });
-    } catch (_) {}
+        return response.ok;
+    } catch (_) {
+        return false;
+    }
 }
 
 async function pullDatabaseFromCloud() {
@@ -166,7 +169,7 @@ async function pullDatabaseFromCloud() {
             .filter(t => t && !deletedIds.includes(t.cuentaId))
             .sort((a, b) => new Date(b.fecha || 0).getTime() - new Date(a.fecha || 0).getTime());
 
-        // Combinar datos locales con los remotos respetando las cuentas recién creadas
+        // Combinar cuentas locales y remotas sin perder registros nuevos
         const mergedAccountsMap = new Map();
         remoteAccounts.forEach(a => mergedAccountsMap.set(a.id, a));
         cloudMemoryState.accounts.forEach(a => {
@@ -175,14 +178,34 @@ async function pullDatabaseFromCloud() {
             }
         });
 
+        // Combinar transacciones locales y remotas
+        const mergedTxsMap = new Map();
+        remoteTxs.forEach(t => mergedTxsMap.set(t.id, t));
+        cloudMemoryState.transactions.forEach(t => {
+            if (!deletedIds.includes(t.cuentaId) && !mergedTxsMap.has(t.id)) {
+                mergedTxsMap.set(t.id, t);
+            }
+        });
+
+        const finalAccounts = ensureAdminAccount(Array.from(mergedAccountsMap.values()));
+        const finalTxs = Array.from(mergedTxsMap.values())
+            .sort((a, b) => new Date(b.fecha || 0).getTime() - new Date(a.fecha || 0).getTime());
+
+        const hasLocalNewData = (finalAccounts.length > remoteAccounts.length || finalTxs.length > remoteTxs.length);
+
         cloudMemoryState = {
-            accounts: ensureAdminAccount(Array.from(mergedAccountsMap.values())),
-            transactions: remoteTxs.length > 0 ? remoteTxs : cloudMemoryState.transactions,
+            accounts: finalAccounts,
+            transactions: finalTxs,
             deletedIds: Array.from(new Set([...cloudMemoryState.deletedIds, ...deletedIds])),
             updatedAt: Math.max(Number(cloudData.updatedAt) || 0, cloudMemoryState.updatedAt || 0)
         };
 
         persistToStorage();
+
+        // Si tenemos datos locales adicionales que aún no estaban en la nube, sincronizarlos
+        if (hasLocalNewData) {
+            pushDatabaseToCloud();
+        }
 
         const activeSession = getActiveSession();
         if (activeSession) {
