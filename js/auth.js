@@ -1,16 +1,29 @@
 /* Módulo de Autenticación y Registro (Bi en Línea) */
 
 document.addEventListener('DOMContentLoaded', () => {
+    // Selectores para index.html
     const btnSwitchLogin = document.getElementById('btnSwitchLogin');
     const btnSwitchRegister = document.getElementById('btnSwitchRegister');
     const paneLogin = document.getElementById('paneLogin');
     const paneRegister = document.getElementById('paneRegister');
 
+    // Selectores para html/login.html
+    const tabLoginBtn = document.getElementById('tabLoginBtn');
+    const tabRegisterBtn = document.getElementById('tabRegisterBtn');
+    const cardRegistroExitoso = document.getElementById('cardRegistroExitoso');
+    const btnIrLoginDesdeExito = document.getElementById('btnIrLoginDesdeExito');
+    const regExitoCuenta = document.getElementById('regExitoCuenta');
+    const regExitoTitular = document.getElementById('regExitoTitular');
+    const regExitoSaldo = document.getElementById('regExitoSaldo');
+
+    // Campos de inicio de sesión
     const formLogin = document.getElementById('formLogin');
     const loginPin = document.getElementById('loginPin');
     const loginUsuario = document.getElementById('loginUsuario');
+    const loginCuenta = document.getElementById('loginCuenta');
     const loginPassword = document.getElementById('loginPassword');
 
+    // Campos de registro (index.html)
     const formRegistro = document.getElementById('formRegistro');
     const regNombres = document.getElementById('regNombres');
     const regApellidos = document.getElementById('regApellidos');
@@ -21,13 +34,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const regAnio = document.getElementById('regAnio');
     const regPassword = document.getElementById('regPassword');
 
+    // Campos de registro (html/login.html)
+    const regNombre = document.getElementById('regNombre');
+    const regTipo = document.getElementById('regTipo');
+    const regSaldoInicial = document.getElementById('regSaldoInicial');
+
+    // Modal de credenciales (index.html)
     const modalCredenciales = document.getElementById('modalCredenciales');
     const modalUsuarioGenerado = document.getElementById('modalUsuarioGenerado');
     const modalPinGenerado = document.getElementById('modalPinGenerado');
     const modalNombreCompleto = document.getElementById('modalNombreCompleto');
     const btnIrALoginDesdeModal = document.getElementById('btnIrALoginDesdeModal');
 
-    // Cambio entre pestañas de Login y Registro
+    let lastCreatedAccount = null;
+
+    // Cambio entre pestañas de Login y Registro en index.html
     function setAuthTab(tab) {
         const scrollArea = document.querySelector('.bi-auth-scroll-area');
         if (scrollArea) scrollArea.scrollTop = 0;
@@ -54,10 +75,43 @@ document.addEventListener('DOMContentLoaded', () => {
     btnSwitchLogin?.addEventListener('click', () => setAuthTab('login'));
     btnSwitchRegister?.addEventListener('click', () => setAuthTab('register'));
 
+    // Cambio entre pestañas en html/login.html
+    if (tabLoginBtn && tabRegisterBtn) {
+        tabLoginBtn.addEventListener('click', () => {
+            tabLoginBtn.classList.add('active');
+            tabRegisterBtn.classList.remove('active');
+            formLogin?.classList.remove('d-none');
+            formRegistro?.classList.add('d-none');
+            cardRegistroExitoso?.classList.add('d-none');
+        });
+        tabRegisterBtn.addEventListener('click', () => {
+            tabRegisterBtn.classList.add('active');
+            tabLoginBtn.classList.remove('active');
+            formRegistro?.classList.remove('d-none');
+            formLogin?.classList.add('d-none');
+            cardRegistroExitoso?.classList.add('d-none');
+        });
+    }
+
+    if (btnIrLoginDesdeExito) {
+        btnIrLoginDesdeExito.addEventListener('click', () => {
+            cardRegistroExitoso?.classList.add('d-none');
+            formLogin?.classList.remove('d-none');
+            tabLoginBtn?.classList.add('active');
+            tabRegisterBtn?.classList.remove('active');
+            if (loginCuenta && lastCreatedAccount) {
+                loginCuenta.value = lastCreatedAccount.numeroCuenta || lastCreatedAccount.correo || '';
+            }
+            if (loginPassword) {
+                loginPassword.value = '';
+                setTimeout(() => loginPassword.focus(), 60);
+            }
+        });
+    }
+
     // Autocompletado de credenciales desde la base de datos activa
     const biUsuariosDatalist = document.getElementById('biUsuariosDatalist');
     const biPinsDatalist = document.getElementById('biPinsDatalist');
-    let lastCreatedCredentials = null;
 
     function refreshLoginAutocompleteLists() {
         const accounts = getAccountsFromDB().filter(acc => {
@@ -106,17 +160,17 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!rawUser) return;
         const query = rawUser.trim().toUpperCase();
         if (!query) return;
+        const cleanQ = query.replace(/[\s-]/g, '');
         const accounts = getAccountsFromDB();
         const matched = accounts.find(a =>
             (a.usuario || '').toUpperCase() === query ||
             (a.correo || '').toUpperCase() === query ||
             (a.numeroCuenta || '').toUpperCase() === query ||
+            (a.numeroCuenta || '').replace(/[\s-]/g, '').toUpperCase() === cleanQ ||
+            (a.dpi || '').replace(/[\s-]/g, '') === cleanQ ||
             (a.nombre || '').toUpperCase() === query
         );
         if (matched) {
-            if (loginUsuario && loginUsuario.value.toUpperCase() !== (matched.usuario || '').toUpperCase()) {
-                loginUsuario.value = (matched.usuario || '').toUpperCase();
-            }
             if (loginPin && (!loginPin.value || loginPin.value.length < 6 || loginPin.value !== (matched.pin || '123456'))) {
                 loginPin.value = matched.pin || '123456';
             }
@@ -160,15 +214,22 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    if (loginCuenta) {
+        loginCuenta.addEventListener('change', (e) => {
+            autoFillFromUsuario(e.target.value);
+        });
+    }
+
     btnIrALoginDesdeModal?.addEventListener('click', () => {
-        const userToFill = (lastCreatedCredentials?.usuario || modalUsuarioGenerado?.textContent || '').trim().toUpperCase();
-        const pinToFill = (lastCreatedCredentials?.pin || modalPinGenerado?.textContent || '').trim();
+        const userToFill = (lastCreatedAccount?.usuario || modalUsuarioGenerado?.textContent || '').trim().toUpperCase();
+        const pinToFill = (lastCreatedAccount?.pin || modalPinGenerado?.textContent || '').trim();
 
         modalCredenciales?.classList.add('d-none');
         setAuthTab('login');
 
         if (loginPin && pinToFill) loginPin.value = pinToFill;
         if (loginUsuario && userToFill) loginUsuario.value = userToFill;
+        if (loginCuenta && userToFill) loginCuenta.value = userToFill;
         if (loginPassword) {
             loginPassword.value = '';
             setTimeout(() => loginPassword.focus(), 60);
@@ -360,66 +421,146 @@ document.addEventListener('DOMContentLoaded', () => {
 
         setTimeout(() => {
             window.location.href = targetDashboard;
-        }, 2100);
+        }, 1800);
     }
 
-    // Inicio de sesión
+    // Inicio de sesión flexible (soporta tanto index.html como html/login.html)
     formLogin?.addEventListener('submit', (e) => {
         e.preventDefault();
 
-        const pin = loginPin?.value.trim() || '';
-        const usuario = loginUsuario?.value.trim().toUpperCase() || '';
+        const usuarioInput = (loginUsuario?.value || loginCuenta?.value || '').trim();
+        const usuarioQuery = usuarioInput.toUpperCase();
+        const usuarioClean = usuarioQuery.replace(/[\s-]/g, '');
         const password = loginPassword?.value || '';
+        let pin = loginPin?.value.trim() || '';
 
-        if (!pin || !usuario || !password) {
-            showToast('Por favor completa tu Código/PIN, Usuario y Contraseña.', 'danger');
-            return;
-        }
-
-        if (pin.length !== 6) {
-            showToast('El Código/PIN debe contener exactamente 6 dígitos numéricos.', 'danger');
-            loginPin?.focus();
+        if (!usuarioInput || !password) {
+            showToast('Por favor completa tu usuario o cuenta y contraseña.', 'danger');
             return;
         }
 
         const findMatchingAccount = (list) => list.find(acc => {
+            if (!acc) return false;
             const accUser = (acc.usuario || '').toUpperCase();
             const accEmail = (acc.correo || '').toUpperCase();
-            const accNumber = (acc.numeroCuenta || '');
-            const userMatches = (accUser === usuario || accEmail === usuario || accNumber === usuario);
-            const passMatches = (acc.password === password);
-            const pinMatches = (acc.pin ? acc.pin === pin : pin === '123456');
+            const accNum = (acc.numeroCuenta || '').toUpperCase();
+            const accNumClean = accNum.replace(/[\s-]/g, '');
+            const accDpi = (acc.dpi || '').replace(/[\s-]/g, '');
+            const accNombre = (acc.nombre || '').toUpperCase();
 
-            return userMatches && passMatches && pinMatches;
+            const userMatches = (
+                accUser === usuarioQuery ||
+                accEmail === usuarioQuery ||
+                accNum === usuarioQuery ||
+                accNumClean === usuarioClean ||
+                accDpi === usuarioClean ||
+                accNombre === usuarioQuery
+            );
+
+            const passMatches = (acc.password === password);
+            return userMatches && passMatches;
         });
 
         let matchedUser = findMatchingAccount(getAccountsFromDB());
 
-        if (!matchedUser && typeof pullDatabaseFromCloud === 'function') {
-            pullDatabaseFromCloud().then(() => {
-                matchedUser = findMatchingAccount(getAccountsFromDB());
-                if (matchedUser) {
-                    setActiveSession(matchedUser);
-                    launchBiCorporateLoader();
-                } else {
-                    showToast('Credenciales incorrectas. Verifica tu Código/PIN, Usuario y Contraseña.', 'danger');
-                }
-            });
+        if (!matchedUser) {
+            showToast('Credenciales incorrectas. Verifica tus datos de acceso.', 'danger');
             return;
         }
 
-        if (matchedUser) {
-            setActiveSession(matchedUser);
-            launchBiCorporateLoader();
-        } else {
-            showToast('Credenciales incorrectas. Verifica tu Código/PIN, Usuario y Contraseña.', 'danger');
+        // Si la pantalla tiene campo de PIN (index.html)
+        if (loginPin) {
+            const expectedPin = matchedUser.pin || '123456';
+            if (pin && pin.length === 6) {
+                if (pin !== expectedPin && pin !== '123456') {
+                    showToast('El Código/PIN ingresado no coincide con tu cuenta.', 'danger');
+                    loginPin.focus();
+                    return;
+                }
+            } else {
+                loginPin.value = expectedPin;
+            }
         }
+
+        setActiveSession(matchedUser);
+        launchBiCorporateLoader();
     });
 
-    // Registro de nueva cuenta Bi
+    // Registro de nueva cuenta Bi (soporta formulario detallado y formulario compacto)
     formRegistro?.addEventListener('submit', (e) => {
         e.preventDefault();
 
+        // Verificamos si estamos en html/login.html (formulario compacto con regNombre)
+        if (regNombre && !regNombres) {
+            const nombreCompleto = regNombre.value.trim();
+            const correo = (regCorreo?.value || '').trim().toLowerCase();
+            const dpi = (regDpi?.value || '').trim();
+            const tipo = regTipo?.value || 'Cuenta Monetaria Bi en Línea';
+            const saldoInicial = parseFloat(regSaldoInicial?.value) || 0;
+            const password = regPassword?.value || '';
+
+            if (!nombreCompleto || !correo || !dpi || !password) {
+                showToast('Todos los campos son obligatorios.', 'danger');
+                return;
+            }
+
+            const accounts = getAccountsFromDB();
+            if (accounts.some(acc => (acc.correo || '').toLowerCase() === correo)) {
+                showToast('Ya existe una cuenta asociada a este correo electrónico.', 'danger');
+                return;
+            }
+
+            const cleanText = (str) => str.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-zA-Z]/g, '').toUpperCase();
+            const parts = nombreCompleto.split(' ');
+            const nom = parts[0];
+            const ape = parts.slice(1).join(' ') || 'Bi';
+            const initial = cleanText(nom).charAt(0) || 'B';
+            const surname = cleanText(ape.split(' ')[0]) || 'CUENTA';
+            const randomNum = Math.floor(100 + Math.random() * 900);
+            const generatedUsuario = `${initial}${surname}${randomNum}`.toUpperCase();
+            const generatedPin = Math.floor(100000 + Math.random() * 900000).toString();
+
+            const accRandom = Math.floor(100000 + Math.random() * 900000);
+            const accCheck = Math.floor(1 + Math.random() * 9);
+            const numeroCuenta = `001-${accRandom}-${accCheck}`;
+
+            const newAccount = {
+                id: 'acc_' + Date.now(),
+                numeroCuenta: numeroCuenta,
+                nombres: nom,
+                apellidos: ape,
+                nombre: nombreCompleto,
+                usuario: generatedUsuario,
+                correo: correo,
+                password: password,
+                pin: generatedPin,
+                dpi: dpi,
+                fechaNacimiento: '1995-01-01',
+                tipo: tipo,
+                saldo: saldoInicial,
+                requiereSaldoInicial: saldoInicial <= 0,
+                fechaApertura: new Date().toISOString().split('T')[0]
+            };
+
+            accounts.push(newAccount);
+            saveAccountsToDB(accounts);
+            lastCreatedAccount = newAccount;
+
+            formRegistro.reset();
+
+            if (cardRegistroExitoso) {
+                formRegistro.classList.add('d-none');
+                cardRegistroExitoso.classList.remove('d-none');
+                if (regExitoCuenta) regExitoCuenta.textContent = numeroCuenta;
+                if (regExitoTitular) regExitoTitular.textContent = nombreCompleto;
+                if (regExitoSaldo) regExitoSaldo.textContent = `Q ${saldoInicial.toFixed(2)}`;
+            }
+
+            showToast('¡Cuenta Bi creada con éxito!', 'success');
+            return;
+        }
+
+        // Formulario detallado de index.html
         const nombres = regNombres?.value.trim() || '';
         const apellidos = regApellidos?.value.trim() || '';
         const correo = regCorreo?.value.trim().toLowerCase() || '';
@@ -511,11 +652,7 @@ document.addEventListener('DOMContentLoaded', () => {
         saveAccountsToDB(accounts);
         refreshLoginAutocompleteLists();
 
-        lastCreatedCredentials = {
-            usuario: generatedUsuario,
-            pin: generatedPin,
-            password: password
-        };
+        lastCreatedAccount = newAccount;
 
         formRegistro.reset();
         dpiCells.forEach(c => { c.value = ''; c.classList.remove('is-filled'); });

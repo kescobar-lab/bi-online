@@ -1,4 +1,4 @@
-// Gestión de base de datos exclusivamente en la nube (TextDB Cloud API)
+// Gestión de base de datos híbrida con persistencia local permanente (LocalStorage) y sincronización Cloud (TextDB)
 
 const DB_KEYS = {
     ACCOUNTS: 'bi_accounts_db',
@@ -28,23 +28,13 @@ const ADMIN_ACCOUNT = {
     fechaApertura: '2026-01-01'
 };
 
-// Estado en memoria sincronizado únicamente con la nube
+// Estado en memoria respaldado en LocalStorage
 let cloudMemoryState = {
     accounts: [{ ...ADMIN_ACCOUNT }],
     transactions: [],
     deletedIds: [],
     updatedAt: 0
 };
-
-function clearLegacyLocalDatabase() {
-    try {
-        localStorage.removeItem(DB_KEYS.ACCOUNTS);
-        localStorage.removeItem(DB_KEYS.TRANSACTIONS);
-        localStorage.removeItem(DB_KEYS.DELETED_IDS);
-        localStorage.removeItem(DB_KEYS.UPDATED_AT);
-        localStorage.removeItem(DB_KEYS.SESSION);
-    } catch (_) {}
-}
 
 function ensureAdminAccount(accounts) {
     const list = Array.isArray(accounts) ? [...accounts] : [];
@@ -66,8 +56,52 @@ function ensureAdminAccount(accounts) {
     return filteredList;
 }
 
+function persistToStorage() {
+    try {
+        localStorage.setItem(DB_KEYS.ACCOUNTS, JSON.stringify(cloudMemoryState.accounts));
+        localStorage.setItem(DB_KEYS.TRANSACTIONS, JSON.stringify(cloudMemoryState.transactions));
+        localStorage.setItem(DB_KEYS.DELETED_IDS, JSON.stringify(cloudMemoryState.deletedIds));
+        localStorage.setItem(DB_KEYS.UPDATED_AT, (cloudMemoryState.updatedAt || Date.now()).toString());
+    } catch (_) {}
+}
+
+function loadFromStorage() {
+    try {
+        const storedAccounts = localStorage.getItem(DB_KEYS.ACCOUNTS);
+        if (storedAccounts) {
+            const parsed = JSON.parse(storedAccounts);
+            if (Array.isArray(parsed) && parsed.length > 0) {
+                cloudMemoryState.accounts = ensureAdminAccount(parsed);
+            }
+        }
+    } catch (_) {}
+
+    try {
+        const storedTxs = localStorage.getItem(DB_KEYS.TRANSACTIONS);
+        if (storedTxs) {
+            const parsedTxs = JSON.parse(storedTxs);
+            if (Array.isArray(parsedTxs)) {
+                cloudMemoryState.transactions = parsedTxs;
+            }
+        }
+    } catch (_) {}
+
+    try {
+        const storedDeleted = localStorage.getItem(DB_KEYS.DELETED_IDS);
+        if (storedDeleted) {
+            const parsedDel = JSON.parse(storedDeleted);
+            if (Array.isArray(parsedDel)) {
+                cloudMemoryState.deletedIds = parsedDel;
+            }
+        }
+    } catch (_) {}
+
+    cloudMemoryState.accounts = ensureAdminAccount(cloudMemoryState.accounts);
+    persistToStorage();
+}
+
 function initDatabase() {
-    clearLegacyLocalDatabase();
+    loadFromStorage();
     const active = getActiveSession();
     if (active) {
         const u = (active.usuario || '').trim().toLowerCase();
@@ -76,12 +110,16 @@ function initDatabase() {
             clearActiveSession();
         } else if (!cloudMemoryState.accounts.some(a => a.id === active.id)) {
             cloudMemoryState.accounts.push(active);
+            persistToStorage();
         }
     }
     cloudMemoryState.accounts = ensureAdminAccount(cloudMemoryState.accounts);
 }
 
 function getAccountsFromDB() {
+    if (!cloudMemoryState.accounts || cloudMemoryState.accounts.length === 0) {
+        loadFromStorage();
+    }
     return ensureAdminAccount(cloudMemoryState.accounts);
 }
 
@@ -97,7 +135,6 @@ async function pushDatabaseToCloud() {
             deletedIds: cloudMemoryState.deletedIds,
             updatedAt: cloudMemoryState.updatedAt || Date.now()
         };
-
         await fetch(CLOUD_DB_URL, {
             method: 'POST',
             headers: { 'Content-Type': 'text/plain;charset=UTF-8' },
@@ -129,19 +166,30 @@ async function pullDatabaseFromCloud() {
             .filter(t => t && !deletedIds.includes(t.cuentaId))
             .sort((a, b) => new Date(b.fecha || 0).getTime() - new Date(a.fecha || 0).getTime());
 
+        // Combinar datos locales con los remotos respetando las cuentas recién creadas
+        const mergedAccountsMap = new Map();
+        remoteAccounts.forEach(a => mergedAccountsMap.set(a.id, a));
+        cloudMemoryState.accounts.forEach(a => {
+            if (!deletedIds.includes(a.id) && !mergedAccountsMap.has(a.id)) {
+                mergedAccountsMap.set(a.id, a);
+            }
+        });
+
         cloudMemoryState = {
-            accounts: remoteAccounts,
-            transactions: remoteTxs,
-            deletedIds: deletedIds,
-            updatedAt: Number(cloudData.updatedAt) || Date.now()
+            accounts: ensureAdminAccount(Array.from(mergedAccountsMap.values())),
+            transactions: remoteTxs.length > 0 ? remoteTxs : cloudMemoryState.transactions,
+            deletedIds: Array.from(new Set([...cloudMemoryState.deletedIds, ...deletedIds])),
+            updatedAt: Math.max(Number(cloudData.updatedAt) || 0, cloudMemoryState.updatedAt || 0)
         };
+
+        persistToStorage();
 
         const activeSession = getActiveSession();
         if (activeSession) {
-            if (deletedIds.includes(activeSession.id)) {
+            if (cloudMemoryState.deletedIds.includes(activeSession.id)) {
                 clearActiveSession();
             } else {
-                const updatedActive = remoteAccounts.find(a => a.id === activeSession.id);
+                const updatedActive = cloudMemoryState.accounts.find(a => a.id === activeSession.id);
                 if (updatedActive) {
                     setActiveSession(updatedActive);
                 }
@@ -149,7 +197,7 @@ async function pullDatabaseFromCloud() {
         }
 
         window.dispatchEvent(new CustomEvent('bi:cloud-synced', {
-            detail: { accounts: remoteAccounts, transactions: remoteTxs }
+            detail: { accounts: cloudMemoryState.accounts, transactions: cloudMemoryState.transactions }
         }));
         return true;
     } catch (_) {
@@ -162,6 +210,7 @@ function saveAccountsToDB(accounts) {
         (accounts || []).filter(a => a && !cloudMemoryState.deletedIds.includes(a.id))
     );
     cloudMemoryState.updatedAt = Date.now();
+    persistToStorage();
     pushDatabaseToCloud();
 }
 
@@ -169,6 +218,7 @@ function saveTransactionsToDB(transactions) {
     cloudMemoryState.transactions = (transactions || [])
         .filter(t => t && !cloudMemoryState.deletedIds.includes(t.cuentaId));
     cloudMemoryState.updatedAt = Date.now();
+    persistToStorage();
     pushDatabaseToCloud();
 }
 
@@ -184,12 +234,13 @@ function deleteAccountFromDB(accountId) {
         t => t && t.cuentaId !== accountId
     );
     cloudMemoryState.updatedAt = Date.now();
+    persistToStorage();
     pushDatabaseToCloud();
 }
 
 function getActiveSession() {
     try {
-        const session = sessionStorage.getItem(DB_KEYS.SESSION);
+        const session = sessionStorage.getItem(DB_KEYS.SESSION) || localStorage.getItem(DB_KEYS.SESSION);
         if (!session) return null;
         return JSON.parse(session);
     } catch (_) {
@@ -201,6 +252,7 @@ function setActiveSession(account) {
     if (!account) return;
     try {
         sessionStorage.setItem(DB_KEYS.SESSION, JSON.stringify(account));
+        localStorage.setItem(DB_KEYS.SESSION, JSON.stringify(account));
     } catch (_) {}
 }
 
